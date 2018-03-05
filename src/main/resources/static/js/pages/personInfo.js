@@ -1,12 +1,12 @@
 $(function() {
-    var wechat_id = getUrlParam('appid');
+    var wechat_id = getUrlParam('wechat_id');
     var headimg = getUrlParam('headimg');
     if (headimg) {
         $('#portait').attr('src', headimg);
     }
 
     $.ajax({
-        url: 'http://www.jiayibilin.com/api-wechat/patientinfo/get',
+        url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/get',
         type: 'GET',
         timeout: 30000,
         data: {
@@ -41,7 +41,7 @@ $(function() {
 
     // 修改
     $('#modify').on('click', function() {
-        var para = '?appid=' + wechat_id + '&headimg=' + headimg;
+        var para = '?wechat_id=' + wechat_id + '&headimg=' + headimg;
         window.location.href = 'personSave.html' + para;
     });
 });

@@ -1,13 +1,13 @@
 $(function() {
-    var wechat_id = getUrlParam('appid');
+    var wechat_id = getUrlParam('wechat_id');
     var headimg = getUrlParam('headimg');
     $('#portait').attr('src', headimg);
     var isUpdate = false;
-    var saveUrl = 'http://www.jiayibilin.com/api-wechat/patientinfo/save';
-    var updateUrl = 'http://www.jiayibilin.com/api-wechat/patientinfo/update';
+    var saveUrl = 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/save';
+    var updateUrl = 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/update';
 
     $.ajax({
-        url: 'http://www.jiayibilin.com/api-wechat/patientinfo/get',
+        url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/get',
         type: 'GET',
         data: {
             wechat_id: wechat_id
@@ -58,9 +58,40 @@ $(function() {
         document.activeElement.blur();
     });
 
+// 百度地图API功能
+    var addressStr = "";
+    var map = new BMap.Map("map");
+    var point = new BMap.Point(116.331398,39.897445);
+    map.centerAndZoom(point,12);
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            var mk = new BMap.Marker(r.point);
+            map.addOverlay(mk);
+            map.panTo(r.point);
+            // 根据坐标得到地址描述
+            var myGeo = new BMap.Geocoder();
+            myGeo.getLocation(r.point, function(result){
+                if (result){
+                    addressStr = result.addressComponents.province + " " + result.addressComponents.city + " " + result.addressComponents.district;
+                    // $('#address').attr("data-code","330101");
+                    // $('#address').attr("data-codes","330000,330100,330101");
+                    $('#address').val(addressStr);
+                }
+            });
+        }
+        else {
+            // alert('failed'+this.getStatus());
+            alert('获取地理位置失败');
+        }
+    },{enableHighAccuracy: true})
+
+
     $('#address').cityPicker({
         title: "选择联系地址",
         showDistrict: true,
+        //value: addressStr,
+        inputReadOnly: false,
         onChange: function(picker, values, displayValues) {
 
         }

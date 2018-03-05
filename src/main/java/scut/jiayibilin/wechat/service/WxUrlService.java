@@ -9,7 +9,7 @@ public class WxUrlService {
     /*
     * 定义基本的url
     * */
-    String baseurl="http://www.jiayibilin.com/api-wechat";
+    String baseurl="http://mrxiej.ngrok.wendal.cn/api-wechat";
     /*
     * imagebaseurl,阿里云链接
     * */

@@ -22,7 +22,7 @@ public class MainViewController {
     /*
     * 基本URL
     * */
-    private String baseUrl = "http://www.jiayibilin.com/api-wechat";
+    private String baseUrl = "http://mrxiej.ngrok.wendal.cn/api-wechat";
     /*
     * 获取一些必要的微信参数类
     * */
@@ -127,12 +127,12 @@ public class MainViewController {
                 /*
                 * 跳转到用户保存页面
                 * */
-                return  "redirect:" + baseUrl+"/static/html/personSave.html?appid="+wechat_id+"&headimg="+headimg;
+                return  "redirect:" + baseUrl+"/static/html/personSave.html?wechat_id="+wechat_id+"&headimg="+headimg;
             } else {
                 /*
                 * 跳转到用户信息显示页面
                 * */
-                return  "redirect:" + baseUrl+"/static/html/personInfo.html?appid="+wechat_id+"&headimg="+headimg;
+                return  "redirect:" + baseUrl+"/static/html/personInfo.html?wechat_id="+wechat_id+"&headimg="+headimg;
             }
         }
         /*

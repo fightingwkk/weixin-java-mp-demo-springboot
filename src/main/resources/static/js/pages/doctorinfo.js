@@ -21,7 +21,7 @@ $(function() {
     // 获取医生信息
     function getDoctorInfo() {
         $.ajax({
-            url: 'http://www.jiayibilin.com/api-wechat/doctor/get',
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/doctor/get',
             type: 'GET',
             timeout: 5000,
             data: {
@@ -68,7 +68,7 @@ $(function() {
     // 加载服务包信息
     function getAllServices() {
         $.ajax({
-            url: 'http://www.jiayibilin.com/api-wechat/doctor/service/get',
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/doctor/service/get',
             type: 'GET',
             timeout: 5000,
             beforeSend: function() {
@@ -106,7 +106,7 @@ $(function() {
     // 获取已购买的服务包
     function getBoughtServices() {
         $.ajax({
-            url: 'http://www.jiayibilin.com/api-wechat/patientinfo/service/get',
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/get',
             type: 'GET',
             timeout: 5000,
             data: {

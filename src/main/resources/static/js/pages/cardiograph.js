@@ -56,7 +56,7 @@ $(function() {
 
         var storeAs = 'diograph/' + new Date().getTime() + ext;
 
-        OSS.urllib.request("http://www.jiayibilin.com/api-stsserver/requestSTS",
+        OSS.urllib.request("http://mrxiej.ngrok.wendal.cn/api-stsserver/requestSTS",
             {method: 'GET'},
             function (err, response) {
                 if (err) {
@@ -92,7 +92,7 @@ $(function() {
     // 保存心电图数据
     function saveDiograph(diograph, client, storeAs) {
         $.ajax({
-            url: 'http://www.jiayibilin.com/api-wechat/healthmanage/cardiogram/save',
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/cardiogram/save',
             type: 'POST',
             timeout: 5000,
             data: {

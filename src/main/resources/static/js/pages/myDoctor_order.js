@@ -13,7 +13,7 @@ $(function() {
         var checkProcotol = $('#checkProcotol').is(':checked');
         if (checkProcotol) {
             $.ajax({
-                url: 'http://www.jiayibilin.com/api-wechat/patientinfo/service/buy',
+                url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/buy',
                 type: 'POST',
                 timeout: 5000,
                 data: {
@@ -67,7 +67,7 @@ $(function() {
     // 获取服务订单
     function getServiceOrder() {
         $.ajax({
-            url: 'http://www.jiayibilin.com/api-wechat/patientinfo/service/getbylist',
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/getbylist',
             type: 'GET',
             timeout: 5000,
             data: {

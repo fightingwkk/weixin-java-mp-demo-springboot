@@ -27,9 +27,10 @@
             </div>
             <div class="weui-msg__opr-area">
                 <p class="weui-btn-area">
-                    <a href="javascript:window.history.back();" class="weui-btn weui-btn_primary">返回上一页</a>
+                    <a href="javascript:window.history.back();" class="weui-btn weui-btn_primary" id="backUp">返回上一页</a>
                 </p>
             </div>
+
         </div>
     </div>
 </body>
@@ -41,6 +42,17 @@
     $(function() {
         FastClick.attach(document.body);
     });
+</script>
+<script>
+    var refUrl = document.referrer.split("?")[0].split("/");
+    var params = document.referrer.split("?")[1];
+    if(refUrl[refUrl.length-1] == "personSave.html"){
+        $('#backUp').css("visibility","hidden");
+        var htmlStr = "<div>即将跳转到健康服务主页</div>";
+        $('.weui-msg').append(htmlStr);
+        setTimeout(function(){window.location.href ="healthService.html?" + params;}, 2000);
+    }
+
 </script>
 <script type="text/javascript" src="../js/tools.js"></script>
 </html>
