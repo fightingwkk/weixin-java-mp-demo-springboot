@@ -29,20 +29,52 @@ $(function() {
     });
 
     // BMI计算
-    $('#height,#weight').on('change', function() {
-        var height = parseInt($('#height').val()) / 100;
-        var weight = parseInt($('#weight').val());
+    function bmi() {
+        var height = parseFloat($('#height').val()) / 100;
+        var weight = parseFloat($('#weight').val());
         if (height && weight) {
-            $('#bmi').val((weight / height / height).toFixed(2));
+            var value = (weight / height / height).toFixed(2);
+            $('#bmi').val(value);
+            if(value < 18.5){
+                $('#value').val('过轻');
+                $('#value').css('color','#03B2D8');
+            }else if(value >= 18.5 && value <= 23.9){
+                $('#value').html('正常');
+                $('#value').css('color','#0FA420');
+
+            }else if(value > 23.9 && value <= 27.9){
+                $('#value').val('偏胖');
+                $('#value').css('color','#FFAA25');
+            }else if(value > 27.9){
+                $('#value').val('肥胖');
+                $('#value').css('color','#D6071F');
+            }
         }
+    }
+
+    $('#height,#weight').on('change', function() {
+        bmi();
     });
+
+    //隐藏输入框
+    if($('#familyHistory').val() == '无' || $('#familyHistory').val() == ''){
+        $('#familyHistoryDetailDiv').css('display', 'none');
+    }
+    if($('#smoke').val() == '否' || $('#smoke').val() == ''){
+        $('#smokeAccountDiv').css('display', 'none');
+    }
+    if($('#drink').val() == '否' || $('#drink').val() == ''){
+        $('#drinkAccountDiv').css('display', 'none');
+    }
 
     // 家族病史
     $('#familyHistory').on('change', function() {
         if ($(this).val() == '有') {
             $('#familyHistoryDetail').removeAttr('disabled');
+            $('#familyHistoryDetailDiv').css('display', 'block');
         } else {
             $('#familyHistoryDetail').attr('disabled', 'true');
+            $('#familyHistoryDetailDiv').css('display', 'none');
         }
     });
 
@@ -51,9 +83,11 @@ $(function() {
         if ($(this).val() == '是') {
             $('#smokeAccount').removeAttr('disabled');
             $('#smokeAccount').val("");
+            $('#smokeAccountDiv').css('display', 'block');
         } else {
             $('#smokeAccount').attr('disabled', 'true');
             $('#smokeAccount').val(0);
+            $('#smokeAccountDiv').css('display', 'none');
         }
     });
 
@@ -62,9 +96,11 @@ $(function() {
         if ($(this).val() == '是') {
             $('#drinkAccount').removeAttr('disabled');
             $('#drinkAccount').val("");
+            $('#drinkAccountDiv').css('display', 'block');
         } else {
             $('#drinkAccount').attr('disabled', 'true');
             $('#drinkAccount').val(0);
+            $('#drinkAccountDiv').css('display', 'none');
         }
     });
 
@@ -235,5 +271,6 @@ $(function() {
             $('#familyHistoryDetail').val(familyContent);
             $('#familyHistoryDetail').removeAttr('disabled');
         }
+        bmi();
     }
 });

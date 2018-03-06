@@ -128,7 +128,7 @@
     function validate(id) {
         switch (id) {
             case "identify": {
-                if (isNaN($('#identify').val().substr(0,17)) ||$('#identify').val().length != 18) {
+                if (checkIDCard($('#identify').val()) == false) {
                     setTimeout(function () {
                         $.alert('请填写正确且合适的身份证信息（18位）', function () {
                             $('#identify').focus();

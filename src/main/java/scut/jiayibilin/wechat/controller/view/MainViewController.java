@@ -72,11 +72,18 @@ public class MainViewController {
         String code = request.getParameter("code");
         this.logger.info("request的值：" + request.toString() + "\n");
         String state = request.getParameter("state");
+        WxMpUser wxMpUser = null;
+        try {
+            wxMpUser = myWxMpService.getWxMpUser(request);
+        } catch (WxErrorException e) {
+            return "redirect:" +baseUrl+"/static/html/msg_error.html";
+        }
+        String wechat_id = wxMpUser.getOpenId();
         if (StringUtils.isAnyEmpty(code, state) || !"doctorlist".equals(state)) {
            /* return "redirect:" +baseUrl+"/static/html/msg_error.html";*/
             return "redirect:" +baseUrl+"/static/html/msg_error.html";
         }
-            return "redirect:" + baseUrl+"/static/html/doctorlist.html";
+            return "redirect:" + baseUrl+"/static/html/doctorlist.html?wechat_id="+wechat_id;
     }
     /*
     * 跳转到健康管理页面

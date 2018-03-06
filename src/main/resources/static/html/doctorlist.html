@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html >
+<html>
 
 	<head>
 		<meta charset="UTF-8" />
@@ -146,7 +146,18 @@
 
 	</body>
 	<script>
+        var wechat_id = getUrlParam('wechat_id');
 		var URL = "http://mrxiej.ngrok.wendal.cn/api-wechat";
+
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        }
+
 		$.ajax({
 			type: "GET",
 			url: URL + "/doctor/getlist",
@@ -170,7 +181,8 @@
 						if(obj.hospital==null){
 							obj.hospital="未填写";
 						}
-						var html = '<div class="container flexrow rowjustify">' +
+//						var params = "?wechat_id=" + wechat_id + "&phone=" + obj.phone;
+						var html = '<div class="container flexrow rowjustify" onclick="intoDoctorInfo('+ obj.phone + ');">' +
 							'<img class="doctorimg" src="' + obj.head_pic + '" onerror="this.src=\'../image/touxiang1@2x.png\'"'+'/>' +
 							'<div class="wrapper flexcolumn">' +
 							'<div class="firstrow flexrow rowjustify">' +
@@ -180,14 +192,16 @@
 							'</div>' +
 							'<div class="address">' + obj.hospital + '</div>' +
 							'</div>' +
-							'</div>'
+							'</div>';
 						document.getElementById("bigcontainer").insertAdjacentHTML('beforeEnd', html);
 					});
 				}
 			}
 		});
 
-		
+		function intoDoctorInfo(phone) {
+            window.location.href ="doctorqrcode.html?wechat_id=" + wechat_id + "&phone=" + phone;
+        }
 	</script>
 
 </html>
