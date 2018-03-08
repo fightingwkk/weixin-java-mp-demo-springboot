@@ -113,6 +113,31 @@ public class HealthManageController {
             return jsonResult;
         }
     }
+
+    /*
+* 根据患者查找生化检查表
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/biologycheck/get",method = RequestMethod.GET)
+    public JsonResult GetBiologyCheck(@RequestParam("wechat_id")String wechat_id){
+        BiologyCheckEntity result=null;
+        try{
+            result=healthManageClient.GetBiologyInfo(wechat_id);
+        }catch(Exception e){
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("there is an exception while getting biology check.exception:"+e.getMessage());
+            this.logger.error("获取生化检查表失败");
+            jsonResult.setData(null);
+        }
+        jsonResult.setData(result);
+        jsonResult.setErrorcode("0");
+        jsonResult.setMessage("get biology check success");
+        this.logger.info("成功获取生化检查表");
+        return jsonResult;
+    }
+
     /*
     *2.5 保存血压心率信息
     * */
@@ -229,6 +254,30 @@ public class HealthManageController {
     }
 
     /*
+* 根据患者查找心电图
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/cardiograph/get",method = RequestMethod.GET)
+    public JsonResult GetCardiograph(@RequestParam("wechat_id")String wechat_id){
+        CardiogramEntity result=null;
+        try{
+            result=healthManageClient.FindCardiograph(wechat_id);
+        }catch(Exception e){
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("there is an exception while getting cardiograph.exception:"+e.getMessage());
+            this.logger.error("获取心电图失败");
+            jsonResult.setData(null);
+        }
+        jsonResult.setData(result);
+        jsonResult.setErrorcode("0");
+        jsonResult.setMessage("get cardiograph success");
+        this.logger.info("成功获取心电图");
+        return jsonResult;
+    }
+
+    /*
     *2.8 生成风险评估报告
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
@@ -253,7 +302,7 @@ public class HealthManageController {
             jsonResult.setErrorcode("2");
             jsonResult.setMessage("genereta report error");
             jsonResult.setData(null);
-        }else if(result.equals("data")){
+        }else if(result.equals("blood")){
             jsonResult.setErrorcode("3");
             jsonResult.setMessage("genereta report error");
             jsonResult.setData(null);
@@ -261,7 +310,15 @@ public class HealthManageController {
             jsonResult.setErrorcode("4");
             jsonResult.setMessage("genereta report error");
             jsonResult.setData(null);
-        }else{
+        }else if(result.equals("health")){
+            jsonResult.setErrorcode("5");
+            jsonResult.setMessage("genereta report error");
+            jsonResult.setData(null);
+        } else if(result.equals("biology")){
+            jsonResult.setErrorcode("6");
+            jsonResult.setMessage("genereta report error");
+            jsonResult.setData(null);
+        } else{
             jsonResult.setErrorcode("1");
             jsonResult.setMessage("there is an exception while generating report. ");
             jsonResult.setData(null);

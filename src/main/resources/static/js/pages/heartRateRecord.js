@@ -105,7 +105,7 @@ $(function() {
                     });
                 } else{
                     if(result.data=='') {
-                        $.alert("没有找到相应的记录,可以前往上传数据", function() {
+                        $.alert("没有找到最近一个月相应的记录,可以前往上传数据", function() {
                             myChart.options.scales.xAxes[0].display = true;
                             myChart.data.labels = [];
                             myChart.data.datasets[0].data = [];

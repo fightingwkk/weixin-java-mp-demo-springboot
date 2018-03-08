@@ -28,9 +28,13 @@ $(function() {
                     }else if(result.errorcode=='2'){
                         $.alert('风险评估报告每三个月才能评估一次');
                     }else if(result.errorcode=='3'){
-                        $.alert('请完善您的各项检查记录后再进行评估');
+                        $.alert('请先填写您最近一周的收缩压信息后再进行评估！');
                     }else if(result.errorcode=='4'){
                         $.alert('抱歉，风险评估算法仅适用于35岁及以上的中老年人');
+                    }else if(result.errorcode=='5'){
+                        $.alert('请先填写您的健康信息后再进行评估！');
+                    }else if(result.errorcode=='6'){
+                        $.alert('请先填写您的总胆固醇信息后再进行评估！');
                     }
                 } else {
                     setTimeout($.alert('成功生成您的风险评估报告',function () {

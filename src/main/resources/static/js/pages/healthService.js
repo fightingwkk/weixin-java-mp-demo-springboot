@@ -64,7 +64,7 @@ $(function() {
 
     // 右上角
     $('header').on('click', '.top-right img', function() {
-        var para = '?appid=' + wechat_id + '&headimg=' + headimg;
+        var para = '?wechat_id=' + wechat_id + '&headimg=' + headimg;
         window.location.href = 'personInfo.html' + para;
     });
 

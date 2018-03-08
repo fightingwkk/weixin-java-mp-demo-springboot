@@ -32,6 +32,12 @@ public interface HealthManageClient {
     String SaveBiologyTable(BiologyCheckEntity biologyCheckEntity);
 
     /*
+    * 调用远程服务下的查看生化检查表接口
+    * */
+    @RequestMapping(value = "/healthmanage/getbiologyinfo", method = RequestMethod.GET)
+    BiologyCheckEntity GetBiologyInfo(@RequestParam("wechat_id") String wechat_id);
+
+    /*
     * 调用远程服务下的保存血压心率表接口
     * */
     @RequestMapping(value="/healthmanage/savebloodpressuretable" ,method= RequestMethod.POST)
@@ -46,10 +52,16 @@ public interface HealthManageClient {
     List<BloodPressureEntity> GetBloodPressureTable(@RequestParam("wechat_id")String wechat_id,@RequestParam("timearea") int timearea, @RequestParam("time") String time);
 
     /*
-    * 调用远程服务下的保存心电表接口
+    * 调用远程服务下的保存心电图接口
     * */
     @RequestMapping(value="/healthmanage/savecardiogramtable" ,method= RequestMethod.POST)
     String SaveCardiogramTable(CardiogramEntity cardiogramEntity);
+
+    /*
+* 调用远程服务下的查找心电图接口
+* */
+    @RequestMapping(value="/healthmanage/findcardiogramtable" ,method= RequestMethod.GET)
+    CardiogramEntity FindCardiograph(String wechat_id);
 
     /*
     * 调用远程服务下的生成风险评估报告接口

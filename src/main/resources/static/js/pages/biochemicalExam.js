@@ -50,7 +50,7 @@ $(function() {
                     $.alert('保存失败,请稍后尝试保存');
                 } else {
                     $.alert("保存成功", function() {
-                        window.history.back();
+                        window.location.href ="biochemicalinfo.html";
                     });
                 }
             },

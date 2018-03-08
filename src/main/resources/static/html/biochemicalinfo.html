@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>佳医比邻</title>
+        <link rel="stylesheet" type="text/css" href="../css/api.css" />
+        <link rel="stylesheet" type="text/css" href="../css/flex.css" />
+        <link rel="stylesheet" type="text/css" href="../css/weui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/jquery-weui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/commen.css" />
+        <link rel="stylesheet" type="text/css" href="../css/doctor-near.css" />
+
+        <style>
+            html,body{
+                background-color: white;
+            }
+            .header{
+                border-bottom: 1px solid #E2E2E2;
+
+            }
+            .container{
+                padding-top: 51px;
+                background-color: white;
+                font-size: 13px;
+                color: #333333;
+            }
+            .text-title{
+                font-size: 15px;
+                color: #333333;
+                margin-right: 10px;
+            }
+            .text-low{
+                font-size: 13px;
+                color: #03b2d8;
+                margin-right: 10px;
+            }
+            .text-normal{
+                font-size: 13px;
+                color: #0fa420;
+                margin-right: 10px;
+            }
+            .text-height{
+                font-size: 13px;
+                color: #d6071f;
+                margin-right: 10px;
+            }
+            .text-hint{
+                font-size: 11px;
+                color: #333333;
+            }
+            .text-time{
+                font-size: 11px;
+                color: #acacac;
+            }
+            .low{
+                background-color: #03b2d8;
+            }
+            .normal{
+                background-color: #0fa420;
+            }
+            .height{
+                background-color: #d6071f;
+            }
+            .item{
+                padding: 10px;
+            }
+            .bar{
+                height: 15px;
+                margin: 0 7%;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .location{
+                height: 19px;
+                margin: 10px 7% 0 7%;
+            }
+            .hint{
+                margin: 10px 7% 0 7%;
+                text-align: center;
+            }
+            .location div{
+                background-image: url("../image/location.png");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: 13px 19px;
+            }
+            .visiblegx{
+                visibility: visible;
+            }
+            .unvisiblegx{
+                visibility: hidden;
+            }
+        </style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+    <header>
+        <div class="header">
+            <div class="top-left">
+                <img src="../image/return1.png" alt=""/>
+            </div>
+            <p class="title">测量结果</p>
+            <div class="top-right">
+                <a class="reset">重新测量</a>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="flex-c item">
+            <div class="flex-r flex-align-center flex-justify-start">
+                <p class="text-title">总胆固醇</p>
+                <p class="text-normal" id="tch"></p>
+                <p class="flex-1">mmol/L</p>
+                <p class="text-time" id="tch_time"></p>
+            </div>
+            <div class="location flex-r">
+                <div id="tch-low" class="flex-1 unvisiblegx"></div>
+                <div id="tch-normal" class="flex-1 unvisiblegx"></div>
+                <div id="tch-height" class="flex-1 unvisiblegx"></div>
+            </div>
+            <div class="bar flex-r">
+                <div class="low flex-1"></div>
+                <div class="normal flex-1"></div>
+                <div class="height flex-1"></div>
+            </div>
+            <div class="hint flex-r">
+                <div class="flex-1 text-hint">偏低</div>
+                <div class="flex-1 text-hint">正常</div>
+                <div class="flex-1 text-hint">偏高</div>
+            </div>
+        </div>
+        <div class="flex-c item">
+            <div class="flex-r flex-align-center flex-justify-start">
+                <p class="text-title">空腹血糖</p>
+                <p class="text-normal" id="fbg"></p>
+                <p class="flex-1">mmol/L</p>
+                <p class="text-time" id="fbg_time"></p>
+            </div>
+            <div class="location flex-r">
+                <div id="fbg-low" class="flex-1 unvisiblegx"></div>
+                <div id="fbg-normal" class="flex-1 unvisiblegx"></div>
+                <div id="fbg-height" class="flex-1 unvisiblegx"></div>
+            </div>
+            <div class="bar flex-r">
+                <div class="low flex-1"></div>
+                <div class="normal flex-1"></div>
+                <div class="height flex-1"></div>
+            </div>
+            <div class="hint flex-r">
+                <div class="flex-1 text-hint">偏低</div>
+                <div class="flex-1 text-hint">正常</div>
+                <div class="flex-1 text-hint">偏高</div>
+            </div>
+        </div>
+        <div class="flex-c item">
+            <div class="flex-r flex-align-center flex-justify-start">
+                <p class="text-title">甘三油脂</p>
+                <p class="text-normal" id="tg"></p>
+                <p class="flex-1">mmol/L</p>
+                <p class="text-time" id="tg_time"></p>
+            </div>
+            <div class="location flex-r">
+                <div id="tg-low" class="flex-1 unvisiblegx"></div>
+                <div id="tg-normal" class="flex-1 unvisiblegx"></div>
+                <div id="tg-height" class="flex-1 unvisiblegx"></div>
+            </div>
+            <div class="bar flex-r">
+                <div class="low flex-1"></div>
+                <div class="normal flex-1"></div>
+                <div class="height flex-1"></div>
+            </div>
+            <div class="hint flex-r">
+                <div class="flex-1 text-hint">偏低</div>
+                <div class="flex-1 text-hint">正常</div>
+                <div class="flex-1 text-hint">偏高</div>
+            </div>
+        </div>
+        <div class="flex-c item">
+            <div class="flex-r flex-align-center flex-justify-start">
+                <p class="text-title">高密度脂蛋白</p>
+                <p class="text-normal" id="hdl"></p>
+                <p class="flex-1">mmol/L</p>
+                <p class="text-time" id="hdl_time"></p>
+            </div>
+            <div class="location flex-r">
+                <div id="hdl-low" class="flex-1 unvisiblegx"></div>
+                <div id="hdl-normal" class="flex-1 unvisiblegx"></div>
+                <div id="hdl-height" class="flex-1 unvisiblegx"></div>
+            </div>
+            <div class="bar flex-r">
+                <div class="low flex-1"></div>
+                <div class="normal flex-1"></div>
+                <div class="height flex-1"></div>
+            </div>
+            <div class="hint flex-r">
+                <div class="flex-1 text-hint">偏低</div>
+                <div class="flex-1 text-hint">正常</div>
+                <div class="flex-1 text-hint">偏高</div>
+            </div>
+        </div>
+        <div class="flex-c item">
+            <div class="flex-r flex-align-center flex-justify-start">
+                <p class="text-title">低密度脂蛋白</p>
+                <p class="text-normal" id="ldl"></p>
+                <p class="flex-1">mmol/L</p>
+                <p class="text-time" id="ldl_time"></p>
+            </div>
+            <div class="location flex-r">
+                <div id="ldl-low" class="flex-1 unvisiblegx"></div>
+                <div id="ldl-normal" class="flex-1 unvisiblegx"></div>
+                <div id="ldl-height" class="flex-1 unvisiblegx"></div>
+            </div>
+            <div class="bar flex-r">
+                <div class="low flex-1"></div>
+                <div class="normal flex-1"></div>
+                <div class="height flex-1"></div>
+            </div>
+            <div class="hint flex-r">
+                <div class="flex-1 text-hint">偏低</div>
+                <div class="flex-1 text-hint">正常</div>
+                <div class="flex-1 text-hint">偏高</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../js/plugins/fastclick/fastclick.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery-weui/jquery-weui.min.js"></script>
+<script type="text/javascript" src="../js/pages/biochemicalinfo.js"></script>
+<script type="text/javascript" src="../js/tools.js"></script>
+</html>
