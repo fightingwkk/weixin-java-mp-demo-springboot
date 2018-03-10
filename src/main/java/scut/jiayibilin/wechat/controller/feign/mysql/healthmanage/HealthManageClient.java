@@ -61,7 +61,7 @@ public interface HealthManageClient {
 * 调用远程服务下的查找心电图接口
 * */
     @RequestMapping(value="/healthmanage/findcardiogramtable" ,method= RequestMethod.GET)
-    CardiogramEntity FindCardiograph(String wechat_id);
+    List<CardiogramEntity> FindCardiograph(String wechat_id);
 
     /*
     * 调用远程服务下的生成风险评估报告接口

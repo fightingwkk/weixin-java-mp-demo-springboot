@@ -261,7 +261,7 @@ public class HealthManageController {
             RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
     @RequestMapping(value="/cardiograph/get",method = RequestMethod.GET)
     public JsonResult GetCardiograph(@RequestParam("wechat_id")String wechat_id){
-        CardiogramEntity result=null;
+        List<CardiogramEntity> result=null;
         try{
             result=healthManageClient.FindCardiograph(wechat_id);
         }catch(Exception e){
