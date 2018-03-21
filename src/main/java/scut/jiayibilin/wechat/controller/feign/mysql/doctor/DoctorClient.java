@@ -1,8 +1,7 @@
 package scut.jiayibilin.wechat.controller.feign.mysql.doctor;
 
 
-import scut.jiayibilin.wechat.entity.DoctorEntity;
-import scut.jiayibilin.wechat.entity.ServiceEntity;
+import scut.jiayibilin.wechat.entity.*;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,5 +28,11 @@ public interface DoctorClient {
     * 返回所有服务包
     * */
     @RequestMapping(value="/doctor/service",method = RequestMethod.GET)
-    List<ServiceEntity> findallservice();
+    List<DoctorServiceEntity> findDoctorService(@RequestParam("phone") String phone);
+    /*
+    *医生群发消息
+     */
+    @RequestMapping(value = "/doctor/groupsending", method = RequestMethod.POST)
+    List<PatientGroupReceivingEntity> doctorGroupSending(DoctorGroupSendingEntity doctorGroupSendingEntity);
+
 }

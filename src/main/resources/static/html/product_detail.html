@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+        <title>佳医比邻</title>
+        <link rel="stylesheet" type="text/css" href="../css/api.css" />
+        <link rel="stylesheet" type="text/css" href="../css/flex.css" />
+        <link rel="stylesheet" type="text/css" href="../css/weui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/jquery-weui.css" />
+        <link rel="stylesheet" type="text/css" href="../css/commen.css" />
+        <link rel="stylesheet" type="text/css" href="../css/doctor-near.css" />
+
+        <style>
+            .wrap {
+                margin-top: 1px;
+            }
+            .product_name{
+                height: 40px;
+                background-color: #ffffff;
+            }
+            .product1{
+                margin-top: 60px;
+                margin-bottom: 5px;
+            }
+            .name_title{
+                color: #8f8f8f;
+                font-size: 14px;
+                margin-left: 10px;
+            }
+            .product{
+                color: #333333;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+            .price{
+                color: #db0a0a;
+                font-size: 14px;
+                margin-right: 10px;
+            }
+            .border {
+                height: 1px;
+                width: auto;
+                background-color: #E2E2E2;
+                margin-left: 10px;
+            }
+            .wrap2{
+                background-color: white;
+            }
+            .wrap3{
+                margin-top: 10px;
+                background-color: #ffffff;
+                height: 150px;
+            }
+            .product_content{
+                font-size: 15px;
+                color: #333333;
+                margin-left: 10px;
+                margin-top: 10px;
+                line-height: 15px;
+            }
+            .content{
+                margin: 10px;
+                font-size: 10px;
+                height: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        </style>
+</head>
+<body>
+    <div id="wrap" class="wrap">
+        <header>
+            <div class="header">
+                <div class="top-left">
+                    <img src="../image/return1.png" alt="" />
+                </div>
+                <p class="title">服务详情</p>
+                <div class="top-right">
+                </div>
+            </div>
+        </header>
+        <!--<div id="header" class="header flex-r flex-align-center flex-justify-center">-->
+            <!--<img class="back" onclick="back()" src="../image/login/back.png" />-->
+            <!--<p class="title flex-1">产品详情</p>-->
+        <!--</div>-->
+        <div class="product_name product1 flex-r flex-justify-between flex-align-center">
+            <p class="name_title">名称</p>
+            <p class="product" id="name"></p>
+        </div>
+        <div class="wrap2">
+            <div class="product_name flex-r flex-justify-between flex-align-center">
+                <p class="name_title">适用人群</p>
+                <p class="product" id="kind"></p>
+            </div>
+
+            <div class="border"></div>
+
+            <div class="product_name flex-r flex-justify-between flex-align-center">
+                <p class="name_title">价格</p>
+                <p class="price" id="price"></p>
+            </div>
+
+            <div class="border"></div>
+
+            <div class="product_name flex-r flex-justify-between flex-align-center">
+                <p class="name_title">期限</p>
+                <p class="product" id="duration"></p>
+            </div>
+
+            <div class="border"></div>
+
+            <div class="product_name flex-r flex-justify-between flex-align-center">
+                <p class="name_title">次数</p>
+                <p class="product" id="count"></p>
+            </div>
+        </div>
+        <div class="wrap3 flex-c">
+            <div class="product_content flex-r flex-justify-start flex-justify-center"><p class="flex-r">服务内容</p></div>
+            <div class="content"><p></p></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../js/plugins/fastclick/fastclick.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery-weui/jquery-weui.min.js"></script>
+<script type="text/javascript" src="../js/tools.js"></script>
+<script type="text/javascript" src="../js/commen.js"></script>
+
+<script>
+    $(function () {
+        //填数据
+        $('#name').html(getItem("name"));
+        $('#kind').html(getItem("kind"));
+        $('#price').html(getItem("price") + '元');
+        $('#duration').html(getItem("duration") + '天');
+        $('#count').html(getItem("sum_count") + '次');
+        removeItem("name");
+        removeItem("kind");
+        removeItem("price");
+        removeItem("duration");
+        removeItem("sum_count");
+        //点击头部返回
+        $('header').on('click', '.top-left', function () {
+            window.history.back();
+        });
+    });
+</script>
+
+
+</html>

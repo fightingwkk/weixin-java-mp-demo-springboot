@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>cardiogram_frame</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/flex.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/weui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/jquery-weui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/commen.css"/>
+
+    <style>
+        html, body {
+            background-color: white;
+        }
+
+        .wrap {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+</div>
+</body>
+<!--<script type="text/javascript" src="../js/plugins/apicloud/api.js"></script>-->
+<script type="text/javascript" src="../js/plugins/fastclick/fastclick.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="../js/plugins/jquery-weui/jquery-weui.min.js"></script>
+<!--<script type="text/javascript" src="../js/commen.js"></script>-->
+<script type="text/javascript" src="../js/plugins/swiper/swiper.js"></script>
+<script type="text/javascript" src="../js/tools.js"></script>
+<script>
+    //    apiready = function () {
+    $(function () {
+        FastClick.attach(document.body);
+        var wechat_id = getItem('wechat_id');
+
+        //获取心电图
+        function getCardiographinfo() {
+            $.ajax({
+                    url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/cardiograph/get',
+                    type: 'GET',
+                    timeout: 5000,
+                    data: {
+                        wechat_id: wechat_id
+                    },
+                    beforeSend: function () {
+                        $.showLoading();
+                    },
+                    success: function (result, status, xhr) {
+                        if (!result || result.errorcode != '0' || !result.data) {
+                            $.alert({
+                                title: '提示',
+                                text: '加载心电图失败.',
+                                onOK: function () {
+                                    window.history.back();
+                                }
+                            });
+                        } else {
+                            if (result.data.length !== 0) {
+                                var imageArray = [];
+                                result.data.forEach(function (item) {
+                                    var obj = {
+                                        image: item.cardiogram,
+                                        caption: item.date + '：' + item.remark
+                                    };
+                                    imageArray.push(obj);
+                                });
+                                var pb = $.photoBrowser({
+                                    items: imageArray
+                                })
+                                pb.open();
+                            } else {
+                                $.alert({
+                                    title: '提示',
+                                    text: '没有心电图数据',
+                                    onOK: function () {
+                                        window.history.back();
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $.alert("请检查您的网络是否通畅");
+                        javascript:WeixinJSBridge.call('closeWindow');
+                    },
+                    complete: function (xhr, status) {
+                        $.hideLoading();
+                    }
+                }
+            );
+        }
+        getCardiographinfo();
+
+//    function loadData() {
+//        $.showLoading();
+//        api.ajax(
+//            {
+//                url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/cardiograph/get',
+//                method: 'get',
+//                timeout: 5000,
+//                data: {
+//                    wechat_id: wechat_id
+//                },
+//            },
+//            function (ret, err) {
+//                if (ret) {
+//                    $.hideLoading();
+//                    // api.alert({ msg: JSON.stringify(ret) });
+//                    if (result.errorcode == '0') {
+//                        if (ret.data.Cardiogram.length !== 0) {
+//                            var imageArray = [];
+//                            ret.data.Cardiogram.forEach(function (item) {
+//                                var obj = {
+//                                    image: item.cardiogram,
+//                                    caption: item.date + '：' + item.remark
+//                                };
+//                                imageArray.push(obj);
+//                            });
+//                            var pb = $.photoBrowser({
+//                                items: imageArray
+//                            })
+//                            pb.open();
+//                        } else {
+//                            api.alert({msg: '没有心电图数据！'}, function (ret, err) {
+//                                back();
+//                            });
+//                        }
+//                    } else if (result.errorcode == '1') {
+//                        api.alert({msg: JSON.stringify(ret.msg)});
+//                        api.openWin(
+//                            {
+//                                slidBackEnabled: false,
+//                                name: 'login',
+//                                url: '../login.html'
+//                            }
+//                        );
+//                    } else if (ret.code = '1003') {
+//                        api.alert({msg: JSON.stringify(ret.msg)});
+//                    }
+//                } else {
+//                    $.hideLoading();
+//                    api.alert({msg: JSON.stringify(err.msg)});
+//                }
+//            });
+//
+//    }
+    });
+</script>
+</html>

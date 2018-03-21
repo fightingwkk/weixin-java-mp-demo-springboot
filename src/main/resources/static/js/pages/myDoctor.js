@@ -74,6 +74,9 @@ $(function() {
             url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/doctor/service/get',
             type: 'GET',
             timeout: 5000,
+            data: {
+                phone: getItem("phone")
+            },
             beforeSend: function() {
                 $.showLoading();
             },
@@ -207,7 +210,6 @@ $(function() {
                 console.info(index + ' : ' + id)
                 serviceIdList.push(id);
             });
-            console.info(serviceIdList.toString());
             var para = '?serviceIdList=' + serviceIdList.toString();
             window.location.href = 'myDoctor_order.html' + para;
         } else {
@@ -218,15 +220,16 @@ $(function() {
 
     // 添加服务
     function addService(service) {
+        console.log(service);
         if (!service) return;
         var str = '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">' +
             '<div class="weui-media-box__bd">' +
-            '<p hidden="hidden" data-id="' + service.id + '"></p>' +
+            '<p hidden="hidden" data-id="' + service.service_id + '"></p>' +
             '<div class="service-title">' +
             '<div class="title-left">' +
             '<div class="cs-circle-check title-ellipsis">' +
-            '<input id="check' + service.id + '" class="check" type="checkbox" />' +
-            '<label for="check' + service.id + '" class="">' +
+            '<input id="check' + service.service_id + '" class="check" type="checkbox" />' +
+            '<label for="check' + service.service_id + '" class="">' +
             service.name + '</label>' +
             '</div>' +
             '</div>' +
@@ -240,7 +243,7 @@ $(function() {
             '</div>' +
             '<div class="flex-r service-detail unvisible">' +
             '<p>总次数: <span class="service-count">' + service.count + '</span></p>' +
-            '<p>期限: <span class="service-duration">' + service.duration + '个月</span>' +
+            '<p>期限: <span class="service-duration">' + service.duration + '天</span>' +
             '</p>' +
             '</div>' +
             '<div class="flex-r service-detail unvisible">' +
@@ -251,5 +254,4 @@ $(function() {
             '</a>';
         $('#serviceList').append(str);
     }
-
 });

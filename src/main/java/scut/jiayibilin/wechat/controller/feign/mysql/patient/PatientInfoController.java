@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import scut.jiayibilin.wechat.entity.*;
 import scut.jiayibilin.wechat.service.MyWxMpService;
+import scut.jiayibilin.wechat.utils.JiguangPush;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.print.Pageable;
@@ -28,6 +29,8 @@ public class PatientInfoController {
     private DoctorClient doctorClient;
     @Autowired
     private JsonResult jsonResult;
+    @Autowired
+    private JiguangPush jiguangPush;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /*
@@ -297,6 +300,8 @@ public class PatientInfoController {
     public JsonResult evaluate(@RequestBody EvaluationEntity evaluationEntity){
         try{
             String result=patientClient.evaluatedoctor(evaluationEntity);
+            PatientEntity patientEntity = patientClient.findByWechatid(evaluationEntity.getWechat_id());
+            jiguangPush.jiguangPush(evaluationEntity.getPhone(),patientEntity.getName() + "评价您：" + evaluationEntity.getContent());
             if(result.equals("success")){
                 jsonResult.setErrorcode("0");
                 jsonResult.setMessage("evaluate success");
@@ -372,6 +377,8 @@ public class PatientInfoController {
     public JsonResult setMessageBoard(@RequestBody MessageBoardEntity messageBoardEntity){
         try{
             String result = patientClient.setMessageBoard(messageBoardEntity);
+            PatientEntity patientEntity = patientClient.findByWechatid(messageBoardEntity.getWechat_id());
+            jiguangPush.jiguangPush(messageBoardEntity.getPhone(),patientEntity.getName()+"给您留言："+messageBoardEntity.getContent());
             this.logger.info(result);
             if(result.equals("success")){
                 jsonResult.setErrorcode("0");
@@ -598,8 +605,6 @@ public class PatientInfoController {
                 jsonResult.setMessage("get doctor group message detail success");
                 jsonResult.setData(patientGroupReceivingEntity);
                 this.logger.info("成功获取患者的医生群发详细消息");
-
-
         }catch(Exception e){
             this.logger.error("获取患者的医生群发详细消息时发生异常"+e.getMessage());
             jsonResult.setErrorcode("10001");

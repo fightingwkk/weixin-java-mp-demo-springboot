@@ -1,5 +1,8 @@
 package scut.jiayibilin.wechat.controller.feign.mysql.healthmanage;
 
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,9 @@ public class HealthManageController {
     private JsonResult jsonResult;
     @Autowired
     private   HealthManageClient healthManageClient;
+    @Autowired
+    WxMpService wxMpService;
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     /*
     * 2.3 保存或者更新健康检查信息
@@ -216,7 +222,7 @@ public class HealthManageController {
     }
 
     /*
-    * 2.7 保存心电表
+    * 2.7 保存心电图
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
             RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
@@ -264,18 +270,53 @@ public class HealthManageController {
         List<CardiogramEntity> result=null;
         try{
             result=healthManageClient.FindCardiograph(wechat_id);
+            jsonResult.setData(result);
+            jsonResult.setErrorcode("0");
+            jsonResult.setMessage("get cardiograph success");
+            this.logger.info("成功获取心电图");
+
         }catch(Exception e){
             jsonResult.setErrorcode("1");
             jsonResult.setMessage("there is an exception while getting cardiograph.exception:"+e.getMessage());
             this.logger.error("获取心电图失败");
             jsonResult.setData(null);
         }
-        jsonResult.setData(result);
-        jsonResult.setErrorcode("0");
-        jsonResult.setMessage("get cardiograph success");
-        this.logger.info("成功获取心电图");
         return jsonResult;
     }
+
+    /*
+    *  删除心电图
+    * */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/cardiograph/delete",method = RequestMethod.POST)
+    public JsonResult deleteCardiogram(@RequestParam("id") Integer id){
+        String result="error";
+        try{
+            result = healthManageClient.deleteCardiogram(id);
+        }catch(Exception e){
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("there is an exception while saving cardiogram . exception:"+e.getMessage());
+            jsonResult.setData(null);
+            this.logger.error("保存心电表时出现异常");
+            return jsonResult;
+        }
+        if(result.equals("success")){
+            jsonResult.setErrorcode("0");
+            jsonResult.setMessage("delete cardiogram success");
+            jsonResult.setData(null);
+            this.logger.info("成功删除心电图信息");
+            return jsonResult;
+        }else{
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("delete cardiogram error in database");
+            jsonResult.setData(null);
+            this.logger.error("删除心电图时数据库服务发生错误");
+            return jsonResult;
+        }
+    }
+
 
     /*
     *2.8 生成风险评估报告
@@ -422,13 +463,36 @@ public class HealthManageController {
     }
 
     /*
+* 获取具体患者的未读消息
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/definemessage/get",method = RequestMethod.GET)
+    public JsonResult getDefineMsg(@RequestParam("wechat_id") String wechat_id){
+        try{
+            List<DefinitionMessageEntity> list=healthManageClient.getDefineMsg(wechat_id);
+            jsonResult.setData(list);
+            jsonResult.setMessage("get define message success");
+            jsonResult.setErrorcode("0");
+            this.logger.info("成功获取患者自定义消息");
+        }catch (Exception e){
+            jsonResult.setData(null);
+            jsonResult.setMessage("get define message error");
+            jsonResult.setErrorcode("1");
+            this.logger.error("获取患者自定义消息失败");
+        }
+        return jsonResult;
+    }
+
+    /*
     * 3.3 将具体的消息设置为已读
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
             RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
             RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
     @RequestMapping(value="/messageremind/setread",method = RequestMethod.POST)
-    public JsonResult SetMessage(@RequestParam("id") int id){
+    public JsonResult setMessageReaded(@RequestParam("id") int id){
         String result="error";
 //        int message_id=Integer.valueOf(id);
         try{
@@ -451,6 +515,81 @@ public class HealthManageController {
             this.logger.error("设置消息为已读时数据库服务发生错误");
             return jsonResult;
         }
+    }
+    /*
+    * 将具体的自定义消息设置为已读
+    * */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/definemessage/setread",method = RequestMethod.POST)
+    public JsonResult setDefineMsgReaded(@RequestParam("id") int id){
+        String result="error";
+//        int message_id=Integer.valueOf(id);
+        try{
+            result=healthManageClient.setDefineMsgRead(id);
+        }catch(Exception e){
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("there is an exception while setting define message read . exception:"+e.getMessage());
+            jsonResult.setData(null);
+        }
+        if(result.equals("success")){
+            jsonResult.setErrorcode("0");
+            jsonResult.setMessage("setting defien message read success");
+            jsonResult.setData(null);
+            this.logger.info("成功设置自定义消息为已读");
+            return jsonResult;
+        }else{
+            jsonResult.setErrorcode("1");
+            jsonResult.setMessage("setting define message read error in database");
+            jsonResult.setData(null);
+            this.logger.error("设置自定义消息为已读时数据库服务发生错误");
+            return jsonResult;
+        }
+    }
+    /*
+* 获取具体患者的未读模板消息数量
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/messageremind/unread/getnumber",method = RequestMethod.GET)
+    public JsonResult GetMessageNumber(@RequestParam("wechat_id") String wechat_id){
+        try{
+            int result=healthManageClient.GetMessageUnreadNumber(wechat_id);
+            jsonResult.setData(result);
+            jsonResult.setMessage("get message unread number success");
+            jsonResult.setErrorcode("0");
+            this.logger.info("成功获取患者未读消息数量");
+        }catch (Exception e){
+            jsonResult.setData(0);
+            jsonResult.setMessage("get message unread number error");
+            jsonResult.setErrorcode("1");
+            this.logger.error("获取患者未读消息数量失败");
+        }
+        return jsonResult;
+    }
+    /*
+* 获取具体患者的未读自定义消息数量
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/definemessage/unread/getnumber",method = RequestMethod.GET)
+    public JsonResult getDefineMsgNumber(@RequestParam("wechat_id") String wechat_id){
+        try{
+            int result=healthManageClient.getDefineMsgUnreadNumber(wechat_id);
+            jsonResult.setData(result);
+            jsonResult.setMessage("get define message unread number success");
+            jsonResult.setErrorcode("0");
+            this.logger.info("成功获取患者未读自定义消息数量");
+        }catch (Exception e){
+            jsonResult.setData(0);
+            jsonResult.setMessage("get define message unread number error");
+            jsonResult.setErrorcode("1");
+            this.logger.error("获取患者未读自定义消息数量失败");
+        }
+        return jsonResult;
     }
 
     /*
@@ -525,31 +664,10 @@ public class HealthManageController {
         return jsonResult;
     }
 
-    /*
-    * 3.7获取具体患者的未读消息数量
-    * */
-    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
-            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
-            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
-    @RequestMapping(value="/messageremind/unread/getnumber",method = RequestMethod.GET)
-    public JsonResult GetMessageNumber(@RequestParam("wechat_id") String wechat_id){
-        try{
-            int result=healthManageClient.GetMessageUnreadNumber(wechat_id);
-            jsonResult.setData(result);
-            jsonResult.setMessage("get message unread number success");
-            jsonResult.setErrorcode("0");
-            this.logger.info("成功获取患者未读消息数量");
-        }catch (Exception e){
-            jsonResult.setData(0);
-            jsonResult.setMessage("get message unread number error");
-            jsonResult.setErrorcode("1");
-            this.logger.error("获取患者未读消息数量失败");
-        }
-        return jsonResult;
-    }
+
 
     /*
-    * 3.7根据消息id获取消息
+    * 根据模板消息id获取消息
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
             RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
@@ -567,6 +685,126 @@ public class HealthManageController {
             jsonResult.setMessage("get message by message_id error");
             jsonResult.setErrorcode("1");
             this.logger.error("获取消息内容失败");
+        }
+        return jsonResult;
+    }
+    /*
+    * 根据自定义消息id获取消息
+    * */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/definemessage/getbyid",method = RequestMethod.GET)
+    public JsonResult getDefineMsgById(@RequestParam("id") int id){
+        try{
+            DefinitionMessageEntity result=healthManageClient.getDefineMsgById(id);
+            jsonResult.setData(result);
+            jsonResult.setMessage("get define message by message_id success");
+            jsonResult.setErrorcode("0");
+            this.logger.info("成功获取自定义消息内容");
+        }catch (Exception e){
+            jsonResult.setData(null);
+            jsonResult.setMessage("get define message by message_id error");
+            jsonResult.setErrorcode("1");
+            this.logger.error("获取自定义消息内容失败");
+        }
+        return jsonResult;
+    }
+
+    /*
+  *删除患者未读医生群发消息
+   */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/definemessage/delete",method = RequestMethod.POST)
+    public JsonResult deleteDefineMsg(@RequestParam int id){
+        try{
+            String result = healthManageClient.deleteDefineMsgById(id);
+            if(result.equals("success")){
+                jsonResult.setErrorcode("0");
+                jsonResult.setMessage("delete define message  success");
+                jsonResult.setData(null);
+                this.logger.info("成功删除患者的医生自定义消息");
+            }else if(result.equals("error")){
+                jsonResult.setErrorcode("1");
+                jsonResult.setMessage("delete define message  error");
+                jsonResult.setData(null);
+                this.logger.info("删除患者的医生自定义消息失败,数据库异常");
+            }
+
+        }catch(Exception e){
+            this.logger.error("删除患者的医生群发消息时发生异常"+e.getMessage());
+            jsonResult.setErrorcode("10001");
+            jsonResult.setMessage("there is an exception while  deleting doctor group message:"+e.getMessage());
+            jsonResult.setData(null);
+        }
+        return jsonResult;
+    }
+    /*
+ *医生发送模板消息
+  */
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins = "*")
+    @RequestMapping(value = "/messageremind", method = RequestMethod.POST)
+    public JsonResult messageRemind(@RequestBody MessageRemindEntity messageRemindEntity) {
+        try {
+            String result = healthManageClient.saveMessageRemind(messageRemindEntity);
+            //微信后台推送
+//            WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder().toUser(messageRemindEntity.getWechat_id()).templateId("lQrnQc4HKp-UUACD8ZvXdo7lWlh0cnokiWtFe9g2PuU").build();
+//            templateMessage.getData().add(new WxMpTemplateData("商品编码", messageRemindEntity.getTarget(), "#000000"));
+//            templateMessage.getData().add(new WxMpTemplateData("商品名称", messageRemindEntity.getRemark(), "#000000"));
+//            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+            if (result.equals("success")) {
+                jsonResult.setErrorcode("0");
+                jsonResult.setMessage("send messageremind success");
+                jsonResult.setData(null);
+            } else {
+                jsonResult.setErrorcode("10001");
+                jsonResult.setMessage("there is an error in mysql while sending message remind .");
+                jsonResult.setData(null);
+            }
+        } catch (Exception e) {
+            this.logger.error("医生发送模板消息时异常" + e.getMessage());
+            jsonResult.setErrorcode("10001");
+            jsonResult.setMessage("there is an exception while sending message remind . exception:" + e.getMessage());
+            jsonResult.setData(null);
+        }
+        return jsonResult;
+    }
+
+
+
+    /*
+*医生发送自定义消息
+*/
+    @CrossOrigin(allowCredentials = "true", allowedHeaders = "*", methods = {RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins = "*")
+    @RequestMapping(value = "/definemessage", method = RequestMethod.POST)
+    public JsonResult defineMessage(@RequestBody DefinitionMessageEntity definitionMessageEntity) {
+        try {
+            String result = healthManageClient.defineMessage(definitionMessageEntity);
+            //微信后台推送
+//            WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder().toUser(definitionMessageEntity.getWechat_id()).templateId("lQrnQc4HKp-UUACD8ZvXdo7lWlh0cnokiWtFe9g2PuU").build();
+//            templateMessage.getData().add(new WxMpTemplateData("keyword1", definitionMessageEntity.getTitle(), "#000000"));
+//            templateMessage.getData().add(new WxMpTemplateData("keyword2", definitionMessageEntity.getContent(), "#000000"));
+//            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+            if (result.equals("success")) {
+                jsonResult.setErrorcode("0");
+                jsonResult.setMessage("send define message success");
+                jsonResult.setData(null);
+            } else {
+                jsonResult.setErrorcode("10001");
+                jsonResult.setMessage("there is an error in mysql while sending  define message .");
+                jsonResult.setData(null);
+            }
+        } catch (Exception e) {
+            this.logger.error("医生发送自定义消息时异常" + e.getMessage());
+            jsonResult.setErrorcode("10001");
+            jsonResult.setMessage("there is an exception while sending define message . exception:" + e.getMessage());
+            jsonResult.setData(null);
         }
         return jsonResult;
     }

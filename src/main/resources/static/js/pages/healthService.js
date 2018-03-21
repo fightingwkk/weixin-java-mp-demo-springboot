@@ -79,9 +79,12 @@ $(function() {
         pagination: '.swiper-pagination',
     });
 
-
-function getUnreadMessage() {
     var num=0;
+    var defineNum = 0;
+    var msgNum = 0;
+    var flag = 0;
+function getUnreadMessage() {
+
     //获取未读医生群发消息数量
     $.ajax({
         url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/groupreceiving/unread',
@@ -98,38 +101,8 @@ function getUnreadMessage() {
             if (data > 0) {
                num+=data;
             }
-            //获取未读消息数量
-            $.ajax({
-                url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/messageremind/unread/getnumber',
-                type: 'GET',
-                timeout: 5000,
-                data: {
-                    wechat_id: wechat_id
-                },
-                beforeSend: function() {
-                    $.showLoading();
-                },
-                success: function(result, status, xhr) {
-                    var data = result.data;
-                    if (data > 0) {
-                        num+=data;
-                    }
-                    if (num > 0) {
-                        $('.number-red-dot').html(num).removeClass('unvisible');
-                    } else {
-                        $('.number-red-dot').addClass('unvisible');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    $.alert("请检查网络是否通畅",function () {
-                    })
-                },
-                complete: function(status, xhr) {
 
-                    $.hideLoading();
-                }
-            });
-
+            getUnreadDefineNum();
         },
         error: function(xhr, status, error) {
             $.alert("请检查网络是否通畅",function () {
@@ -141,7 +114,86 @@ function getUnreadMessage() {
         }
     });
 }
+    //获取未读模板消息数量
+    function getUnreadMsgNum() {
+        $.ajax({
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/messageremind/unread/getnumber',
+            type: 'GET',
+            timeout: 5000,
+            data: {
+                wechat_id: wechat_id
+            },
+            beforeSend: function() {
+                $.showLoading();
+            },
+            success: function(result, status, xhr) {
+                var data = result.data;
+                if (data >= 0) {
+                    msgNum = data;
+                    flag++;
+                }
+                if(flag == 2){
+                    num += msgNum;
+                    num += defineNum;
 
+                    if (num > 0) {
+                        $('.number-red-dot').html(num).removeClass('unvisible');
+                    } else {
+                        $('.number-red-dot').addClass('unvisible');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $.alert("请检查网络是否通畅",function () {
+                })
+            },
+            complete: function(status, xhr) {
+
+                $.hideLoading();
+            }
+        });
+    }
+
+    //获取未读自定义消息数量
+    function getUnreadDefineNum() {
+        $.ajax({
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/definemessage/unread/getnumber',
+            type: 'GET',
+            timeout: 5000,
+            data: {
+                wechat_id: wechat_id
+            },
+            beforeSend: function() {
+                $.showLoading();
+            },
+            success: function(result, status, xhr) {
+                var data = result.data;
+                if (data >= 0) {
+                    defineNum = data;
+                    flag++;
+                }
+                getUnreadMsgNum();
+                if(flag == 2){
+                    num += msgNum;
+                    num += defineNum;
+
+                    if (num > 0) {
+                        $('.number-red-dot').html(num).removeClass('unvisible');
+                    } else {
+                        $('.number-red-dot').addClass('unvisible');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                $.alert("请检查网络是否通畅",function () {
+                })
+            },
+            complete: function(status, xhr) {
+
+                $.hideLoading();
+            }
+        });
+    }
 
     //获取医生回复
     $.ajax({

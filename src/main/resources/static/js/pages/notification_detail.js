@@ -14,12 +14,14 @@ $(function() {
     var $circle = $detail.find('[name="detail-circle"]');
 
     if(url[0]=="data-id"){
-    getnotificationDetail(url[1]);
-    }else{
+        getNotificationDetail(url[1]);
+    }else if(url[0]=="group-id"){
         getGroupDetail(url[1]);
+    }else{
+        getDefineDetail(url[1]);
     }
-    // 获取消息详细内容
-    function getnotificationDetail(id) {
+    // 获取模板消息详细内容
+    function getNotificationDetail(id) {
         $.ajax({
             url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/messageremind/getbyid',
             type: 'GET',
@@ -47,7 +49,35 @@ $(function() {
             }
         });
     }
-
+    // 获取自定义消息详细内容
+    function getDefineDetail(id) {
+        $.ajax({
+            url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/healthmanage/definemessage/getbyid',
+            type: 'GET',
+            timeout: 5000,
+            data: {
+                id: id
+            },
+            beforeSend: function() {
+                $.showLoading();
+            },
+            success: function(result, status, xhr) {
+                if (result.errorcode != '0') {
+                    $.alert('加载失败',function () {
+                        window.history.back();
+                    });
+                } else {
+                    var data = result.data;
+                    addContentDefine(data);
+                }
+            },
+            error: function(xhr, status, error) {
+            },
+            complete: function(xhr, status) {
+                $.hideLoading();
+            }
+        });
+    }
     // 获取医生群发消息详细内容
     function getGroupDetail(id) {
         $.ajax({
@@ -78,7 +108,7 @@ $(function() {
         });
     }
 
-    // 添加消息内容
+    // 添加模板消息内容
     function addContent(notification) {
        // $('[name="detail-time"]').html(notification.time);
         var str = '<div class="content-item">' +
@@ -93,6 +123,20 @@ $(function() {
             '</p>' +
             '<p class="circle">' +
             '周期：<span name="detail-circle">' + notification.period +'天'+ '</span>' +
+            '</p>' +
+            '</div>';
+        $('#contentList').append(str);
+    }
+
+    // 添加自定义消息内容
+    function addContentDefine(notification) {
+        // $('[name="detail-time"]').html(notification.time);
+        var str = '<div class="content-item">' +
+            '<p class="title">' +
+            '标题：<span name="detail-title">' + notification.title + '</span>' +
+            '</p>' +
+            '<p class="target text-default">' +
+            '内容：<span name="detail-target">' + notification.content + '</span>' +
             '</p>' +
             '</div>';
         $('#contentList').append(str);

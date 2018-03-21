@@ -1,10 +1,13 @@
 package scut.jiayibilin.wechat.entity;
 
 /*
+#患者收到的医生群发消息表
 create table patient_group_receiving(
 id int not null auto_increment,
 phone varchar(31) not null default '',
+doctor_name varchar(31) not null default '',
 wechat_id varchar(255) not null default '',
+patient_name varchar(31) not null default '',
 content varchar(255) not null default '',
 datetime timestamp default current_timestamp,
 isread int not null default 0,
@@ -16,7 +19,9 @@ primary key(id)
 public class PatientGroupReceivingEntity {
     private int id;
     private String phone;//医生电话
+    private String doctor_name;//医生姓名
     private String wechat_id;//患者微信号
+    private String patient_name;//患者姓名
     private String content;//内容
     private String datetime;//时间
     private int isread;//是否已读
@@ -26,6 +31,22 @@ public class PatientGroupReceivingEntity {
     private  String name;//医生姓名
 
     public PatientGroupReceivingEntity() {
+    }
+
+    public String getDoctor_name() {
+        return doctor_name;
+    }
+
+    public void setDoctor_name(String doctor_name) {
+        this.doctor_name = doctor_name;
+    }
+
+    public String getPatient_name() {
+        return patient_name;
+    }
+
+    public void setPatient_name(String patient_name) {
+        this.patient_name = patient_name;
     }
 
     public int getId() {

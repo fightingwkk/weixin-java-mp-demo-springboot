@@ -1,7 +1,7 @@
-$(function() {
+$(function () {
     var wechat_id = getItem('wechat_id');
 
-    $('.weui-tab__bd').on('click', '.button_sp_area .weui-btn', function() {
+    $('.weui-tab__bd').on('click', '.button_sp_area .weui-btn', function () {
         var $service = $(this).closest('.weui-media-box');
         var $id = $service.children().first();
         var $serviceName = $service.find('.service-title .service-name');
@@ -15,10 +15,10 @@ $(function() {
         $.confirm({
             title: '购买',
             text: '是否要再次购买该服务？',
-            onOK: function() {
+            onOK: function () {
                 buyServiceagain(id);
             },
-            onCancel: function() {
+            onCancel: function () {
                 //点击取消后的回调函数
             }
         });
@@ -35,16 +35,16 @@ $(function() {
             data: {
                 wechat_id: wechat_id
             },
-            beforeSend: function() {
+            beforeSend: function () {
                 $.showLoading();
             },
-            success: function(result, status, xhr) {
+            success: function (result, status, xhr) {
                 var data = result.data;
                 if (!result || result.errorcode != '0') {
-                    $.alert('加载失败',function () {
+                    $.alert('加载失败', function () {
                         window.history.back();
                     })
-                } else if(data.length==0) {
+                } else if (data.length == 0) {
                     $.alert({
                         title: '提示',
                         text: '您尚未购买任何服务.',
@@ -52,16 +52,16 @@ $(function() {
                             window.history.back();
                         }
                     });
-                }else{
+                } else {
                     parseBoughtServices(data);
                 }
             },
-            error: function(xhr, status, error) {
-                $.alert('网络不给力',function () {
+            error: function (xhr, status, error) {
+                $.alert('网络不给力', function () {
                     window.history.back();
                 })
             },
-            complete: function(xhr, status) {
+            complete: function (xhr, status) {
                 $.hideLoading();
             }
         });
@@ -70,29 +70,29 @@ $(function() {
     // 解析服务数据
     function parseBoughtServices(services) {
         if (services && services.length > 0) {
-            $.each(services, function(index, service) {
+            $.each(services, function (index, service) {
                 var time = "";
                 var duration = parseInt(service.duration);
                 var remain = parseInt(service.left_count);
                 var purchaseTime = service.purchased_time;
                 var strTime = purchaseTime.toString();
-                strTime = strTime.substr(0,10);
-                var timearray =  strTime.split('-');
-                var now= new Date(timearray[0], timearray[1]-1, timearray[2]);
+                strTime = strTime.substr(0, 10);
+                var timearray = strTime.split('-');
+                var now = new Date(timearray[0], timearray[1] - 1, timearray[2]);
                 time += now.Format("yyyy-MM-dd") + ' 至 ';
-                var expireDay = new Date(now.getTime()+duration*24*60*60*1000);
+                var expireDay = new Date(now.getTime() + duration * 24 * 60 * 60 * 1000);
                 time += expireDay.Format("yyyy-MM-dd");
                 service.time = time;
                 addOrderService('allOrderServices', service);
-                if (service.indent_status== 1) {
+                if (service.indent_status == 1) {
                     addOrderService('inUseOrderService', service);
-                } else if(service.indent_status== 99 || service.indent_status== 2){
+                } else if (service.indent_status == 99 || service.indent_status == 2) {
                     addOrderService('completedOrderdService', service);
                 }
             });
         }
 
-        $('.service-remain-times').each(function() {
+        $('.service-remain-times').each(function () {
             var $parent = $(this).closest('.service-content');
             var $total = $parent.find('.service-total-times');
             var $remain = $parent.find('.service-remain-times').parent('p');
@@ -120,12 +120,12 @@ $(function() {
                 wechat_id: wechat_id,
                 serviceid: serviceId
             },
-            beforeSend: function() {
+            beforeSend: function () {
                 $.showLoading('请稍等');
             },
-            success: function(result, status, xhr) {
+            success: function (result, status, xhr) {
                 if (!result || result.errorcode != '0') {
-                    $.alert('加载失败',function () {
+                    $.alert('加载失败', function () {
                         window.history.back();
                     })
                 } else {
@@ -138,21 +138,24 @@ $(function() {
                     });
                 }
             },
-            error: function(xhr, status, error) {
-                $.alert('网络不给力',function () {
+            error: function (xhr, status, error) {
+                $.alert('网络不给力', function () {
                     window.history.back();
                 })
             },
-            complete: function(xhr, status) {
+            complete: function (xhr, status) {
                 $.hideLoading();
             }
         });
     }
 
+
+
     // 添加服务
     function addOrderService(id, service) {
-        var str = '<div class="weui-media-box weui-media-box_text">' +
-            '<p hidden="hidden" data-id="' + service.serviceid + '"></p>' +
+        var str = '<div class="weui-media-box weui-media-box_text" onclick="toServiceDetial(this)" id="' + service.id + '">' +
+            '<p class="kind" hidden="hidden">'+service.kind + '</p>' +
+            '<p class="duration" hidden="hidden">'+service.duration+'</p>' +
             '<div class="flex-r service-title">' +
             '<div class="title-left">' +
             '<p class="title-ellipsis service-name">' + service.name +
@@ -183,5 +186,6 @@ $(function() {
             '</div>';
         $('#' + id).append(str);
     }
+
 
 });

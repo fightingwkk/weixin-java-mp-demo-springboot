@@ -75,7 +75,7 @@ $(function() {
                     });
                 } catch (e) {
                     $.hideLoading();
-                    $.alert('上传图片异常');
+                    $.alert('上传图片异常！');
                 }
 
                 client.multipartUpload(storeAs, file).then(function (result) {

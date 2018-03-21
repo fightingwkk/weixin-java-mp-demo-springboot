@@ -66,7 +66,7 @@ public class AliyunOssController {
         }
     }
     /*
-    * 获取医生二维啊的阿里云链接
+    * 获取医生二维码的阿里云链接
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
             RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
