@@ -139,9 +139,9 @@
                         } else {
                             $.alert({
                                 title: '提示',
-                                text: '没有心电图数据',
+                                text: '没有心电图数据，请上传数据',
                                 onOK: function () {
-                                    window.history.back();
+                                    window.location.href = 'cardiograph.html';
                                 }
                             });
                         }

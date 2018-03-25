@@ -306,7 +306,11 @@ public class PatientInfoController {
                 jsonResult.setErrorcode("0");
                 jsonResult.setMessage("evaluate success");
                 jsonResult.setData(null);
-            }else{
+            }else  if(result.equals("did")){
+                jsonResult.setErrorcode("1");
+                jsonResult.setMessage("evaluated success");
+                jsonResult.setData(null);
+            }else {
                 jsonResult.setErrorcode("10001");
                 jsonResult.setMessage("there is an error in mysql while evaluating .");
                 jsonResult.setData(null);

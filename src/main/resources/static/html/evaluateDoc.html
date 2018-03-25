@@ -146,7 +146,7 @@
             },
             success: function(result, status, xhr) {
                 $.hideLoading();
-                if (!result || result.errorcode != '0') {
+                if (!result || result.errorcode == '1') {
                     $.hideLoading();
                     setTimeout(function () {
                         $.alert('您已经做过评价', function () {
@@ -157,6 +157,13 @@
                     $.hideLoading();
                     setTimeout(function () {
                         $.alert('评价成功', function () {
+                            window.history.back();
+                        });
+                    });
+                } else if(result.errorcode == '10001'){
+                    $.hideLoading();
+                    setTimeout(function () {
+                        $.alert('发生错误，评价失败', function () {
                             window.history.back();
                         });
                     });

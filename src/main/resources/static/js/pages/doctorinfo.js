@@ -131,7 +131,7 @@ $(function() {
                     var data = result.data;
                     if (data && data.length > 0) {
                         $.each(data, function(index, service) {
-                            if(service.indent_status==1) {
+                            if(service.indent_status==1 && service.doctor_phone == phone) {
                                 var $this = $('p[data-id="' + service.service_id + '"]');
                                 if ($this) {
                                     var $parent = $this.closest('.weui-media-box');

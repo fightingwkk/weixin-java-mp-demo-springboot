@@ -57,6 +57,7 @@ $(function() {
         var storeAs = 'diograph/' + new Date().getTime() + ext;
 
         OSS.urllib.request("http://mrxiej.ngrok.wendal.cn/api-stsserver/requestSTS",
+        // OSS.urllib.request("http://125.216.243.186:2004/requestSTS",
             {method: 'GET'},
             function (err, response) {
                 if (err) {

@@ -166,34 +166,22 @@
 				var data=alldata.data;
 				if(data != null) {
 					$.each(data, function(n, obj) {
-						if(obj.head_pic==null){
-							obj.head_pic="../image/touxiang1@2x.png";
-						}
-						if(obj.name==null){
-							obj.name="未填写";
-						}
-						if(obj.department==null){
-							obj.department="未填写";
-						}
-						if(obj.title==null){
-							obj.title="未填写";
-						}
-						if(obj.hospital==null){
-							obj.hospital="未填写";
-						}
+
+						if(obj.name != null && obj.name != "") {
 //						var params = "?wechat_id=" + wechat_id + "&phone=" + obj.phone;
-						var html = '<div class="container flexrow rowjustify" onclick="intoDoctorInfo('+ obj.phone + ');">' +
-							'<img class="doctorimg" src="' + obj.head_pic + '" onerror="this.src=\'../image/touxiang1@2x.png\'"'+'/>' +
-							'<div class="wrapper flexcolumn">' +
-							'<div class="firstrow flexrow rowjustify">' +
-							'<div class="name">' + obj.name + '</div>' +
-							'<div class="dep">' + obj.department + ' | </div>' +
-							'<div class="doctortitle">' + obj.title + '</div>' +
-							'</div>' +
-							'<div class="address">' + obj.hospital + '</div>' +
-							'</div>' +
-							'</div>';
-						document.getElementById("bigcontainer").insertAdjacentHTML('beforeEnd', html);
+                            var html = '<div class="container flexrow rowjustify" onclick="intoDoctorInfo(' + obj.phone + ');">' +
+                                '<img class="doctorimg" src="' + obj.head_pic + '" onerror="this.src=\'../image/touxiang1@2x.png\'"' + '/>' +
+                                '<div class="wrapper flexcolumn">' +
+                                '<div class="firstrow flexrow rowjustify">' +
+                                '<div class="name">' + obj.name + '</div>' +
+                                '<div class="dep">' + obj.department + ' | </div>' +
+                                '<div class="doctortitle">' + obj.title + '</div>' +
+                                '</div>' +
+                                '<div class="address">' + obj.hospital + '</div>' +
+                                '</div>' +
+                                '</div>';
+                            document.getElementById("bigcontainer").insertAdjacentHTML('beforeEnd', html);
+                        }
 					});
 				}
 			}

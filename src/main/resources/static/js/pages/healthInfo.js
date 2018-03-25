@@ -139,6 +139,16 @@ $(function() {
                     }
                     $.hideLoading();
                 }else{
+                    //隐藏输入框
+                    if($('#familyHistory').val() == '无' || $('#familyHistory').val() == ''){
+                        $('#familyHistoryDetailDiv').css('display', 'none');
+                    }
+                    if($('#smoke').val() == '否' || $('#smoke').val() == ''){
+                        $('#smokeAccountDiv').css('display', 'none');
+                    }
+                    if($('#drink').val() == '否' || $('#drink').val() == ''){
+                        $('#drinkAccountDiv').css('display', 'none');
+                    }
                     $.hideLoading();
                 }
             },
