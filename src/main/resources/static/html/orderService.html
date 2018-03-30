@@ -89,15 +89,8 @@
 <script type="text/javascript" src="../js/pages/orderService.js"></script>
 <script>
     //跳转到服务详情
-    function toServiceDetial(obj) {
-        setItem("name",$(obj).find('.service-name').html());
-        setItem("kind",$(obj).find('.kind').html());
-        setItem("price", $(obj).find('.service-price').html());
-        setItem("duration",$(obj).find('.duration').html());
-        setItem("sum_count",$(obj).find('.service-total-times').html());
-        window.location.href = "product_detail.html";
-//         window.location.href = "product_detail.html?" + "name=" + $(obj).find('.service-name').html() + "&kind=" + $(obj).find('.kind').html() +
-//             "&price=" + $(obj).find('.service-price').html() + "&duration=" +  $(obj).find('.duration').html() + "&sum_count=" +  $(obj).find('.service-total-times').html();
+    function toServiceDetial(id) {
+         window.location.href = "product_detail.html?" + "pur_service_id=" + id;
     }
 </script>
 </html>

@@ -301,7 +301,7 @@ public class PatientInfoController {
         try{
             String result=patientClient.evaluatedoctor(evaluationEntity);
             PatientEntity patientEntity = patientClient.findByWechatid(evaluationEntity.getWechat_id());
-            jiguangPush.jiguangPush(evaluationEntity.getPhone(),patientEntity.getName() + "评价您：" + evaluationEntity.getContent());
+            jiguangPush.jiguangPush(evaluationEntity.getPhone(),patientEntity.getName() + "给您评价：" + evaluationEntity.getContent());
             if(result.equals("success")){
                 jsonResult.setErrorcode("0");
                 jsonResult.setMessage("evaluate success");

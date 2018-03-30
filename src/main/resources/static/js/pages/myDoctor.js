@@ -222,7 +222,7 @@ $(function() {
     function addService(service) {
         console.log(service);
         if (!service) return;
-        var str = '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">' +
+        var str = '<a href="javascript:void(0);" id="'+service.service_id+'" class="weui-media-box weui-media-box_appmsg" onclick="toServiceDetial(this.id)">' +
             '<div class="weui-media-box__bd">' +
             '<p hidden="hidden" data-id="' + service.service_id + '"></p>' +
             '<div class="service-title">' +
@@ -236,17 +236,19 @@ $(function() {
             '<div class="flex-r title-right">' +
             '<p class="service-price text-red text-right text-ellipsis weui-flex__item">' +
             service.price + '元</p>' +
-            '<div class="single-arrow-down fold">' +
-            '<span class="arrow-down"></span>' +
+            // '<div class="single-arrow-down fold">' +
+            // '<span class="arrow-down"></span>' +
+            // '</div>' +
             '</div>' +
             '</div>' +
-            '</div>' +
-            '<div class="flex-r service-detail unvisible">' +
+            // '<div class="flex-r service-detail unvisible">' +
+            '<div class="flex-r service-detail">' +
             '<p>总次数: <span class="service-count">' + service.count + '</span></p>' +
             '<p>期限: <span class="service-duration">' + service.duration + '天</span>' +
             '</p>' +
             '</div>' +
-            '<div class="flex-r service-detail unvisible">' +
+            // '<div class="flex-r service-detail unvisible">' +
+            '<div class="flex-r service-detail">' +
             '<p class="text-default">适用人群: <span class="service-kind">' +
              service.kind + '</span></p>' +
             '</div>' +

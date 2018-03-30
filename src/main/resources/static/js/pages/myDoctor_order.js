@@ -10,6 +10,16 @@ $(function() {
 
     //  确定
     $('#confirm').on('click', function() {
+
+        var url = document.referrer;
+        url=url.split("/");
+        url=url[url.length-1].split("?");
+        if(url[0]=="orderService.html"){
+            $.alert('您已成功购买服务，请勿重复购买', '提示',function () {
+                window.location.href = 'myDoctor.html';
+            });
+        }
+
         var checkProcotol = $('#checkProcotol').is(':checked');
         if (checkProcotol) {
             $.ajax({

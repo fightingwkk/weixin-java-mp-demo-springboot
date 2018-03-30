@@ -41,7 +41,6 @@ public class DoctorInfoController {
     public JsonResult GetDoctor(@RequestParam("phone") String phone) {
         DoctorEntity doctorEntity = null;
         try {
-            System.out.println("phone:::::::::" +phone);
             doctorEntity = doctorClient.findbydoctorphone(phone);
             if (doctorEntity == null) {
                 jsonResult.setErrorcode("10005");

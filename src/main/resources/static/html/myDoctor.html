@@ -136,7 +136,10 @@
     $(function() {
         FastClick.attach(document.body);
     });
-
+    //跳转到服务详情
+    function toServiceDetial(id) {
+        window.location.href = "product_detail.html?" + "pur_service_id=" + id;
+    }
 
 </script>
 <script type="text/javascript" src="../js/tools.js"></script>

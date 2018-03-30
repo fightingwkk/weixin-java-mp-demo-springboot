@@ -133,17 +133,44 @@
 
 <script>
     $(function () {
-        //填数据
-        $('#name').html(getItem("name"));
-        $('#kind').html(getItem("kind"));
-        $('#price').html(getItem("price") + '元');
-        $('#duration').html(getItem("duration") + '天');
-        $('#count').html(getItem("sum_count") + '次');
-        removeItem("name");
-        removeItem("kind");
-        removeItem("price");
-        removeItem("duration");
-        removeItem("sum_count");
+        var id = getUrlParam("pur_service_id");
+        // 获取已购买的服务包
+        getBoughtServices();
+        function getBoughtServices() {
+            $.ajax({
+                url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/getbyid',
+                type: 'GET',
+                timeout: 5000,
+                data: {
+                    id: id
+                },
+                beforeSend: function () {
+                    $.showLoading();
+                },
+                success: function (result, status, xhr) {
+                    var data = result.data;
+                    if (!result || result.errorcode != '0') {
+                        $.alert('加载失败', function () {
+                            window.history.back();
+                        })
+                    } else {
+                        $('#name').html(data.name);
+                        $('#kind').html(data.kind);
+                        $('#price').html(data.price + '元');
+                        $('#duration').html(data.duration + '天');
+                        $('#count').html(data.count + '次');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $.alert('网络不给力', function () {
+                        window.history.back();
+                    })
+                },
+                complete: function (xhr, status) {
+                    $.hideLoading();
+                }
+            });
+        }
         //点击头部返回
         $('header').on('click', '.top-left', function () {
             window.history.back();

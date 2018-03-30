@@ -46,12 +46,38 @@ $(function() {
                         if(data.head_pic!=null){
                             $('#portait').attr('src', data.head_pic);
                         }
-                        $('#personName').html(data.name);
-                        $('#personDepartment').html(data.department);
-                        $('#personPost').html(data.title);
-                        $('#personHospital').html(data.hospital);
-                        $('#personAdept').html(data.adept);
-                        $('#personExperience').html(data.experience);
+                        if(data.name == null || data.name == ''){
+                            $('#personName').html('未填写');
+                        }else{
+                            $('#personName').html(data.name);
+                        }
+                        if(data.department == null || data.department ==''){
+                            $('#personDepartment').html('未填写');
+                        }else{
+                            $('#personDepartment').html(data.department);
+                        }
+                        if(data.title == null || data.title ==''){
+
+                            $('#personPost').html('未填写');
+                        }else{
+                            $('#personPost').html(data.title);
+                        }
+                        if(data.hospital == null || data.hospital ==''){
+
+                            $('#personHospital').html('未填写');
+                        }else{
+                            $('#personHospital').html(data.hospital);
+                        }
+                        if(data.adept == null || data.adept ==''){
+                            $('#personAdept').html('未填写');
+                        }else{
+                            $('#personAdept').html(data.adept);
+                        }
+                        if(data.experience == null || data.experience ==''){
+                            $('#personExperience').html('未填写');
+                        }else{
+                            $('#personExperience').html(data.experience);
+                        }
                     }
                 }
             },
@@ -131,7 +157,8 @@ $(function() {
                     var data = result.data;
                     if (data && data.length > 0) {
                         $.each(data, function(index, service) {
-                            if(service.indent_status==1 && service.doctor_phone == phone) {
+                            // if(service.indent_status==1 && service.doctor_phone == phone) {
+                            if(service.indent_status==1) {
                                 var $this = $('p[data-id="' + service.service_id + '"]');
                                 if ($this) {
                                     var $parent = $this.closest('.weui-media-box');

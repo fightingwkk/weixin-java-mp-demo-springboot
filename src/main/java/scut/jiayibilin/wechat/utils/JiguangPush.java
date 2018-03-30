@@ -82,7 +82,7 @@ public class JiguangPush {
                 .setAudience(Audience.alias(alias))//你项目中的用户
                 .setNotification(Notification.newBuilder()//发送内容
                         .addPlatformNotification(AndroidNotification.newBuilder()
-                                .addExtra("type", "infomation")//附加字段
+                                .addExtra("type", "information")//附加字段
                                 .setAlert(alert)//通知内容
                                 .build())
                         .addPlatformNotification(IosNotification.newBuilder()
@@ -91,7 +91,7 @@ public class JiguangPush {
                                 .build())
                         .build())
                 .setOptions(Options.newBuilder()
-                        .setApnsProduction(false)//true-推送生产环境 false-推送开发环境（测试使用参数）
+                        .setApnsProduction(true)//true-推送生产环境 false-推送开发环境（测试使用参数）
                         .setTimeToLive(90)//消息在JPush服务器的失效时间（测试使用参数）
                         .build())
                 .build();

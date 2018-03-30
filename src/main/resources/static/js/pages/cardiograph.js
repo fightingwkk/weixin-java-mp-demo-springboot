@@ -108,7 +108,7 @@ $(function() {
                     $.alert('保存失败');
                 } else {
                     $.alert('上传保存成功！', function(){
-                        window.history.back();
+                        window.location.href = "cardiogram_frame.html";
                     });
                 }
             },
