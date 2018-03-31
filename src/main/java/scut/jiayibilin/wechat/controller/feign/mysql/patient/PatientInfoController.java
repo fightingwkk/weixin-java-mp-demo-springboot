@@ -166,7 +166,7 @@ public class PatientInfoController {
         return jsonResult;
     }
     /*
-    * 1.5根据服务主键列表返回服务实体list
+    * 根据服务主键列表返回服务实体list
     * */
     @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
             RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
@@ -192,6 +192,54 @@ public class PatientInfoController {
            jsonResult.setMessage("there is an exception while getting servicelist by idlist . exception:"+e.getMessage());
            jsonResult.setData(null);
             this.logger.error("根据服务list获取服务发生异常"+e.getMessage());
+        }
+        return jsonResult;
+    }
+
+    /*
+* 根据服务主键id返回服务实体
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/service/getbyid",method=RequestMethod.GET)
+    public JsonResult getServiceById(@RequestParam("id") Integer id){
+        try{
+
+            ServiceEntity serviceEntity = patientClient.findServiceById(id);
+            jsonResult.setErrorcode("0");
+            jsonResult.setMessage("get service by id success");
+            jsonResult.setData(serviceEntity);
+            this.logger.info("成功根据服务id获取服务");
+        }
+        catch(Exception e){
+            jsonResult.setErrorcode("10001");
+            jsonResult.setMessage("there is an exception while getting service by id . exception:"+e.getMessage());
+            jsonResult.setData(null);
+            this.logger.error("根据服务id获取服务发生异常"+e.getMessage());
+        }
+        return jsonResult;
+    }
+    /*
+* 根据已购买的服务主键id返回服务实体
+* */
+    @CrossOrigin(allowCredentials="true", allowedHeaders="*", methods={RequestMethod.GET,
+            RequestMethod.POST, RequestMethod.DELETE, RequestMethod.OPTIONS,
+            RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.PATCH}, origins="*")
+    @RequestMapping(value="/service/getboughtbyid",method=RequestMethod.GET)
+    public JsonResult getBoughtServiceById(@RequestParam("id") Integer id){
+        try{
+            PurchasedServiceEntity purchasedServiceEntity = patientClient.findBoughtServiceById(id);
+            jsonResult.setErrorcode("0");
+            jsonResult.setMessage("get bought service by id success");
+            jsonResult.setData(purchasedServiceEntity);
+            this.logger.info("成功根据服务id获取服务");
+        }
+        catch(Exception e){
+            jsonResult.setErrorcode("10001");
+            jsonResult.setMessage("there is an exception while getting bought service by id . exception:"+e.getMessage());
+            jsonResult.setData(null);
+            this.logger.error("根据已购买的服务id获取服务发生异常"+e.getMessage());
         }
         return jsonResult;
     }

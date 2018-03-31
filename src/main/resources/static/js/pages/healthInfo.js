@@ -33,20 +33,20 @@ $(function() {
         var height = parseFloat($('#height').val()) / 100;
         var weight = parseFloat($('#weight').val());
         if (height && weight) {
-            var value = (weight / height / height).toFixed(2);
+            var value = (weight / height / height).toFixed(1);
             $('#bmi').val(value);
             if(value < 18.5){
-                $('#value').val('过轻');
+                $('#value').html('过轻');
                 $('#value').css('color','#03B2D8');
             }else if(value >= 18.5 && value <= 23.9){
                 $('#value').html('正常');
                 $('#value').css('color','#0FA420');
 
             }else if(value > 23.9 && value <= 27.9){
-                $('#value').val('偏胖');
+                $('#value').html('超重');
                 $('#value').css('color','#FFAA25');
             }else if(value > 27.9){
-                $('#value').val('肥胖');
+                $('#value').html('肥胖');
                 $('#value').css('color','#D6071F');
             }
         }

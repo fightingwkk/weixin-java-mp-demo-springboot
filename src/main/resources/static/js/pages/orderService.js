@@ -153,7 +153,7 @@ $(function () {
 
     // 添加服务
     function addOrderService(id, service) {
-        var str = '<div class="weui-media-box weui-media-box_text" onclick="toServiceDetial(this.id)" id="' + service.id + '">' +
+        var str = '<div class="weui-media-box weui-media-box_text" onclick="toServiceDetail(this.id)" id="' + service.id + '">' +
             '<p class="kind" hidden="hidden">'+service.kind + '</p>' +
             '<p class="duration" hidden="hidden">'+service.duration+'</p>' +
             '<div class="flex-r service-title">' +

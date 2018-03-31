@@ -45,6 +45,16 @@ public interface PatientClient {
     @RequestMapping(value="/service/findbylist",method=RequestMethod.GET)
     List<ServiceEntity> findservice(List<Integer> idlist);
     /*
+* 调用远程服务下通过服务id返回服务接口
+* */
+    @RequestMapping(value="/service/findbyid",method=RequestMethod.GET)
+    ServiceEntity findServiceById(Integer id);
+    /*
+* 调用远程服务下通过服务id返回服务接口
+* */
+    @RequestMapping(value="/service/findboughtbyid",method=RequestMethod.GET)
+    PurchasedServiceEntity findBoughtServiceById(Integer id);
+    /*
     * 调用远程服务下通过患者微信号查找购买的服务接口
     * */
     @RequestMapping(value="/patient/findmyservice",method = RequestMethod.GET)

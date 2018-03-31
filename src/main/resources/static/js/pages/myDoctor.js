@@ -222,7 +222,7 @@ $(function() {
     function addService(service) {
         console.log(service);
         if (!service) return;
-        var str = '<a href="javascript:void(0);" id="'+service.service_id+'" class="weui-media-box weui-media-box_appmsg" onclick="toServiceDetial(this.id)">' +
+        var str = '<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">' +
             '<div class="weui-media-box__bd">' +
             '<p hidden="hidden" data-id="' + service.service_id + '"></p>' +
             '<div class="service-title">' +
@@ -242,7 +242,7 @@ $(function() {
             '</div>' +
             '</div>' +
             // '<div class="flex-r service-detail unvisible">' +
-            '<div class="flex-r service-detail">' +
+            '<div class="flex-r service-detail" id="'+service.service_id+'" onclick="toServiceDetail(this.id)">' +
             '<p>总次数: <span class="service-count">' + service.count + '</span></p>' +
             '<p>期限: <span class="service-duration">' + service.duration + '天</span>' +
             '</p>' +

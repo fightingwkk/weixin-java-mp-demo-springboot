@@ -133,10 +133,15 @@
 
 <script>
     $(function () {
-        var id = getUrlParam("pur_service_id");
-        // 获取已购买的服务包
-        getBoughtServices();
-        function getBoughtServices() {
+        var pur_id = getUrlParam("pur_service_id");
+        var id = getUrlParam("service_id");
+        if(id != null){
+        getService();
+        }else if(pur_id != null){
+            getBoughtService();
+        }
+        // 获取服务包
+        function getService() {
             $.ajax({
                 url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/getbyid',
                 type: 'GET',
@@ -171,6 +176,45 @@
                 }
             });
         }
+
+        // 获取已购买的服务包
+        function getBoughtService() {
+            $.ajax({
+                url: 'http://mrxiej.ngrok.wendal.cn/api-wechat/patientinfo/service/getboughtbyid',
+                type: 'GET',
+                timeout: 5000,
+                data: {
+                    id: pur_id
+                },
+                beforeSend: function () {
+                    $.showLoading();
+                },
+                success: function (result, status, xhr) {
+                    var data = result.data;
+                    if (!result || result.errorcode != '0') {
+                        $.alert('加载失败', function () {
+                            window.history.back();
+                        })
+                    } else {
+                        $('#name').html(data.name);
+                        $('#kind').html(data.kind);
+                        $('#price').html(data.price + '元');
+                        $('#duration').html(data.duration + '天');
+                        $('#count').html(data.sum_count + '次');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $.alert('网络不给力', function () {
+                        window.history.back();
+                    })
+                },
+                complete: function (xhr, status) {
+                    $.hideLoading();
+                }
+            });
+        }
+
+
         //点击头部返回
         $('header').on('click', '.top-left', function () {
             window.history.back();
