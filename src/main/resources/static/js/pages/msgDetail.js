@@ -89,9 +89,14 @@ $(function () {
     function addMessageBoardReply(messageBoard) {
         var str = '<div class="weui-flex title-area">'+messageBoard.name+'回复</div>'+
             '<div class="reply-area">'+
-            '<div class="weui-flex reply-info">'+
-            '<div class="doc-avatar"><img style="border-radius: 50%" src="'+messageBoard.head_pic+'"></div>'+
-            '<div class="weui-flex text-container">'+
+            '<div class="weui-flex reply-info">';
+        if(messageBoard.head_pic != null && messageBoard.head_pic != ""){
+
+           str += '<div class="doc-avatar"><img style="border-radius: 50%" src="'+messageBoard.head_pic+'"></div>';
+        }else{
+           str += '<div class="doc-avatar"><img style="border-radius: 50%" src="../image/touxiang1@2x.png"></div>';
+        }
+            str +='<div class="weui-flex text-container">'+
             '<div class="doc-name">'+messageBoard.name+'</div>'+
             '<div class="reply-time">'+messageBoard.datetime.split(".")[0]+'</div>'+
         '</div>'+

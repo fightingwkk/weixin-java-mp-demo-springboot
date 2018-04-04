@@ -117,8 +117,10 @@ $(function() {
                     $.alert('想拥有您自己的私人医生需要购买医生提供的服务','提示');
                     var data = result.data;
                     if (data) {
-                        if(data.head_pic!=null){
+                        if(data.head_pic!=null && data.head_pic != ""){
                             $('#portait').attr('src', data.head_pic);
+                        }else{
+                            $('#portait').attr('src', "../image/touxiang1@2x.png");
                         }
                         $('#personName').html(data.name);
                         $('#personDepartment').html(data.department);

@@ -302,8 +302,12 @@ function getUnreadMessage() {
         }
         var str =  '<div class="weui-cell weui-cell_swiped"  id="'+messageboard.id+'">'+
             '<a class="weui-cell__bd chat-wrapper" ontouchstart="return touchstartF(event,this);"  ontouchmove="return touchmoveF(event,this);" ontouchend="return touchendF(event,this,'+messageboard.id+');"  >'+
-            '<div class="chat-box-head">'+
-            '<img class="chat-head-img" style="border-radius: 50%" src="'+messageboard.head_pic+'" alt="" />';
+            '<div class="chat-box-head">';
+        if(messageboard.head_pic == null || messageboard.head_pic == "" ){
+           str+= '<img class="chat-head-img" style="border-radius: 50%" src="../image/touxiang1@2x.png" alt="" />';
+        }else{
+            str+='<img class="chat-head-img" style="border-radius: 50%" src="'+messageboard.head_pic+'" alt="" />';
+        }
         if(messageboard.sender==1 && messageboard.isread==0){
             str+= '<span class="red-dot"></span>';
         }

@@ -68,7 +68,7 @@
 			<div class="portait-img flex-c flex-align-center flex-justify-center">
 				<img id="portait" src="../image/touxiang-2x.png">
 				<p>
-					<span class="" id="personName"></span>
+		.			<span class="" id="personName"></span>
 					<span class="information" id="personDepartment"></span>
 					&nbsp;|&nbsp;
 					<span class="information" id="personPost"></span>
@@ -125,7 +125,10 @@
     $(function() {
         FastClick.attach(document.body);
     });
-
+    //跳转到服务详情
+    function toServiceDetail(id) {
+        window.location.href = "product_detail.html?" + "service_id=" + id;
+    }
 
 
 </script>

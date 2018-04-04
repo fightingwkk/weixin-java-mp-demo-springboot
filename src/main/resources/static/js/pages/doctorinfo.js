@@ -43,7 +43,7 @@ $(function() {
                     $.alert('想拥有您自己的私人医生需要购买医生提供的服务','提示');
                     var data = result.data;
                     if (data) {
-                        if(data.head_pic!=null){
+                        if(data.head_pic!=null && data.head_pic != ""){
                             $('#portait').attr('src', data.head_pic);
                         }
                         if(data.name == null || data.name == ''){
@@ -233,17 +233,19 @@ $(function() {
             '<div class="flex-r title-right">' +
             '<p class="service-price text-red text-right text-ellipsis weui-flex__item">' +
             service.price + '元</p>' +
-            '<div class="single-arrow-down fold">' +
-            '<span class="arrow-down"></span>' +
+            // '<div class="single-arrow-down fold">' +
+            // '<span class="arrow-down"></span>' +
+            // '</div>' +
             '</div>' +
             '</div>' +
-            '</div>' +
-            '<div class="flex-r service-detail unvisible">' +
+            // '<div class="flex-r service-detail unvisible">' +
+            '<div class="flex-r service-detail" id="'+service.service_id+'" onclick="toServiceDetail(this.id)">' +
             '<p>总次数: <span class="service-count">' + service.count + '</span></p>' +
             '<p>期限: <span class="service-duration">' + service.duration + '天</span>' +
             '</p>' +
             '</div>' +
-            '<div class="flex-r service-detail unvisible">' +
+            // '<div class="flex-r service-detail unvisible">' +
+            '<div class="flex-r service-detail">' +
             '<p class="text-default">适用人群: <span class="service-kind">' +
             service.kind + '</span></p>' +
             '</div>' +

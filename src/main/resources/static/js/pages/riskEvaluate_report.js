@@ -11,7 +11,8 @@ $(function() {
     }
 
     var radialObj = radialIndicator('#indicatorContainer', {
-        barColor: '#20a5ac',
+        // barColor: '#20a5ac',
+        barColor: {0: '#20a5ac', 0.99: '#20a5ac', 1: '#ebb416', 4.99: '#ebb416', 5: '#ff621d', 9.99: '#ff621d', 10: '#ff2a2a', 100: '#ff2a2a'},
         barWidth: 15,
         minValue: 0,
         maxValue: 100,
@@ -98,6 +99,16 @@ $(function() {
     function parseReport(data) {
         prob = parseFloat(data.prob);
         radialObj.value(prob);
+        if (prob >= 10) {
+            radialObj.option('barColor', '#ff2a2a');
+            $('.text-default').css('color', '#ff2a2a');
+        }else if (prob >= 5) {
+            radialObj.option('barColor', '#ff621d');
+            $('.text-default').css('color', '#ff621d');
+        }else if (prob >= 1) {
+            radialObj.option('barColor', '#ebb416');
+            $('.text-default').css('color', '#ebb416');
+        }
         $('#content').html(data.content);
     }
 

@@ -29,7 +29,7 @@
         <div class="eval-header">
             <div class="weui-panel__bd">
                 <div class="weui-flex doc-info">
-                    <img class="doc-avatar" id="doc_avatar" src="" alt="" />
+                    <img class="doc-avatar" id="doc_avatar" src="../image/touxiang1@2x.png" alt="" />
                     <div class="doc-name" id="doc_name"></div>
                 </div>
 
@@ -87,7 +87,10 @@
 
         $('#doc_name').html(decodeURI(getUrlParam('name')));
 
-        $('#doc_avatar').attr('src', decodeURI(getUrlParam('avatar')));
+        var head_pic = decodeURI(getUrlParam('avatar'));
+        if(head_pic != null && head_pic != ""){
+        $('#doc_avatar').attr('src', head_pic);
+        }
 
     });
 

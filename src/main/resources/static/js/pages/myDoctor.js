@@ -33,14 +33,14 @@ $(function() {
                             title: '提示',
                             text: '您还未签约医生（扫描医生二维码购买医生服务即可签约）.',
                             onOK: function () {
-                                window.history.back();
+                                window.location.href = "doctorlist.html?wechat_id="+wechat_id;
                             }
                         });
                     }
                 } else {
                     var data = result.data;
                     if (data) {
-                        if(data.head_pic!=null){
+                        if(data.head_pic!=null && data.head_pic != ""){
                             $('#portait').attr('src', data.head_pic);
                         }
                         setItem('phone',data.phone);

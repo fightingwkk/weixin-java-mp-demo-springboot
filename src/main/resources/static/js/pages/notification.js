@@ -425,8 +425,12 @@ $(function() {
             '<input id="group-' + notification.id + '" class="check" name="" type="checkbox" />' +
             '<label for="group-' + notification.id + '" class=""></label>' +
             '</div>' +
-            '<div class="weui-media-box__hd">' +
-            '<img class="weui-media-box__thumb" src="'+notification.head_pic+'"  style="border-radius: 50%" alt="" />';
+            '<div class="weui-media-box__hd">' ;
+        if(notification.head_pic != null && notification.head_pic != ""){
+            str += '<img class="weui-media-box__thumb" src="'+notification.head_pic+'"  style="border-radius: 50%;width: 100%;height: 100%" alt="" />';
+        }else{
+            str += '<img class="weui-media-box__thumb" src="../image/touxiang1@2x.png"  style="border-radius: 50%;width: 100%;height: 100%" alt="" />';
+        }
         if(notification.isread==0){
             str+='<span class="red-dot"></span>' +
                 '</div>';
