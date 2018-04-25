@@ -88,8 +88,10 @@
         $('#doc_name').html(decodeURI(getUrlParam('name')));
 
         var head_pic = decodeURI(getUrlParam('avatar'));
-        if(head_pic != null && head_pic != ""){
-        $('#doc_avatar').attr('src', head_pic);
+        if(head_pic && head_pic != "" && head_pic != "null"){
+            $('#doc_avatar').attr('src', head_pic);
+        }else{
+            $('#doc_avatar').attr('src', '../image/touxiang1@2x.png');
         }
 
     });

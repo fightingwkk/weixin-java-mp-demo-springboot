@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by jie on 2017/8/8.
  */
-@FeignClient(name="eureka-server-mysql",url="http://mrxiej.ngrok.wendal.cn/api-mysql")
+@FeignClient(name="microservice-jiayibilin-mySql",url="http://mrxiej.ngrok.wendal.cn/api-mysql")
 public interface DoctorClient {
     /*
     * 调用远程服务下通过医生phone返回医生实体接口

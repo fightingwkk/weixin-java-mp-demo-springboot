@@ -12,7 +12,7 @@ $(function() {
         });
     });
     getMyDoctorInfo();
-    getAllServices();
+
 
     // 获取患者关注的医生信息
     function getMyDoctorInfo() {
@@ -52,7 +52,7 @@ $(function() {
                         $('#personExperience').html(data.experience);
                         $('#a_2evaluate').attr('href', encodeURI('evaluateDoc.html?phone=' + data.phone + '&name=' + encodeURI(data.name) + '&avatar=' + encodeURI(data.head_pic)));
                         $('#share').attr('href',encodeURI( 'share.html?qrcode='+data.qrcode_pic+'&name='+data.name));
-
+                        getAllServices();
                     }
                 }
             },

@@ -118,7 +118,7 @@ $(function () {
                 } else if(ldl >= 2.10 && ldl <= 3.12) {
                     $('#ldl-normal').addClass('visiblegx').removeClass('unvisiblegx');
                 }else {
-                    $('#hdl-height').addClass('visiblegx').removeClass('unvisiblegx');
+                    $('#ldl-height').addClass('visiblegx').removeClass('unvisiblegx');
                 }
             }
         } else {

@@ -295,13 +295,13 @@ $(function() {
                 labels: null,
                 datasets: [{
                     fill: false,
-                    label: '收缩压',
+                    label: '舒张压',
                     data: null,
                     borderColor: 'rgba(54, 162, 235, 1)',
                     borderWidth: 1
                 }, {
                     fill: false,
-                    label: '舒张压',
+                    label: '收缩压',
                     data: null,
                     borderColor: 'rgba(255,99,132,1)',
                     borderWidth: 1
